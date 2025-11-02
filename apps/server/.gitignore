@@ -1,0 +1,53 @@
+# Dependências
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-error.log*
+
+### Environment / Secrets ###
+# Ignora todos os arquivos .env, mas permite que 'example' seja comitado
+.env
+.env.*
+!.env.example
+
+### Build Artifacts ###
+# Vite / TypeScript
+dist/
+dist-ssr/
+.vite/
+*.tsbuildinfo
+
+# .NET (C# Backend)
+# Já antecipando o projeto da API
+[Bb]in/
+[Oo]bj/
+
+### IDE & Editor Config ###
+# VSCode
+.vscode/
+
+# JetBrains (Rider, WebStorm)
+.idea/
+*.sln.iml
+
+# Visual Studio
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+### OS Generated Files ###
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+ehthumbs.db
