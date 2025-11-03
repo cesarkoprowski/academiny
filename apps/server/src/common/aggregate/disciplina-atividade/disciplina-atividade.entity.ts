@@ -1,11 +1,14 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('aluno_atividade_extensao')
-export default class AlunoAtividadeExtensao {
+@Entity('disciplina_atividade_extensao')
+
+export default class DisciplinaAtividadeExtensao {
   @PrimaryGeneratedColumn()
   id: number;
+
   @Column()
-  alunoId: number;
+  disciplinaId: number;
+
   @Column()
   atividadeExtensaoId: number;
 }
