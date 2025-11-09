@@ -9,6 +9,7 @@ import { CursoModule } from 'modules/curso/curso.module';
 import { TypeOrmExceptionFilter } from 'common/error/filter/typeorm-exeception.filter';
 import AdminModule from 'modules/admin/admin.module';
 import { DisciplinaModule } from 'modules/disciplina/disciplina.module';
+import { AtividadeExtensaoModule } from 'modules/atividade/atividade.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { DisciplinaModule } from 'modules/disciplina/disciplina.module';
     CursoModule,
     AdminModule,
     DisciplinaModule,
+    AtividadeExtensaoModule,
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
         schema: 'public',
