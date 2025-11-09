@@ -1,9 +1,11 @@
 import { InjectRepository } from '@nestjs/typeorm';
+import { Injectable } from '@nestjs/common';
 import Curso from 'common/entities/curso/curso.entity';
 import CursoRequestCreateDto from 'modules/curso/dto/request/curso-create.request.dto';
 import ICursoRepository from 'modules/curso/repository/curso.repository';
 import { Repository } from 'typeorm';
 
+@Injectable()
 export default class CursoRepository implements ICursoRepository {
   constructor(
     @InjectRepository(Curso)
