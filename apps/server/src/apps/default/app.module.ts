@@ -11,7 +11,7 @@ import AdminModule from 'modules/admin/admin.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: '.env.example',
+      envFilePath: '.env',
     }),
     UserModule,
     CursoModule,
