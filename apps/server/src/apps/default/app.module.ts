@@ -8,6 +8,8 @@ import UserModule from 'modules/user/user.module';
 import { CursoModule } from 'modules/curso/curso.module';
 import { TypeOrmExceptionFilter } from 'common/error/filter/typeorm-exeception.filter';
 import AdminModule from 'modules/admin/admin.module';
+import { DisciplinaModule } from 'modules/disciplina/disciplina.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -16,6 +18,7 @@ import AdminModule from 'modules/admin/admin.module';
     UserModule,
     CursoModule,
     AdminModule,
+    DisciplinaModule,
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
         schema: 'public',
