@@ -2,17 +2,23 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { APP_FILTER } from '@nestjs/core';
 import { Entities } from 'common/entities/index.entity';
-import UserModule from 'modules/user-account/user.module';
+import UserModule from 'modules/user/user.module';
+import { CursoModule } from 'modules/curso/curso.module';
+import { TypeOrmExceptionFilter } from 'common/error/filter/typeorm-exeception.filter';
+import AdminModule from 'modules/admin/admin.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: '.env.example',
     }),
     UserModule,
-
+    CursoModule,
+    AdminModule,
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
+        schema: 'public',
         type: 'postgres',
         host: process.env.DB_HOST || 'db',
         port: parseInt(process.env.DB_PORT || '5432'),
@@ -30,6 +36,11 @@ import UserModule from 'modules/user-account/user.module';
     }),
   ],
   controllers: [AppController],
-  providers: [],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: TypeOrmExceptionFilter,
+    },
+  ],
 })
 export class AppModule {}
