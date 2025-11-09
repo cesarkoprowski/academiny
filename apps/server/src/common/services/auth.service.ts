@@ -17,7 +17,7 @@ export default class AuthService {
 
   generateToken(userId: number, email: string): string {
     return sign({ userId, email }, this.jwtSecret!, {
-      expiresIn: Math.floor(Date.now() / 1000),
+      expiresIn: '1h',
     });
   }
 
