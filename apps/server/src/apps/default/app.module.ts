@@ -2,14 +2,16 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { Entities } from 'common/entities/index.entity';
 import UserModule from 'modules/user/user.module';
 import { CursoModule } from 'modules/curso/curso.module';
-import { TypeOrmExceptionFilter } from 'common/error/filter/typeorm-exeception.filter';
+import { TypeOrmExceptionFilter } from 'common/error/filter/typeorm.exeception.filter';
 import AdminModule from 'modules/admin/admin.module';
 import { DisciplinaModule } from 'modules/disciplina/disciplina.module';
 import { AtividadeExtensaoModule } from 'modules/atividade/atividade.module';
+import AuthGuard from 'common/security/auth/auth.guard';
+import AuthService from 'common/services/auth.service';
 
 @Module({
   imports: [
@@ -46,6 +48,11 @@ import { AtividadeExtensaoModule } from 'modules/atividade/atividade.module';
       provide: APP_FILTER,
       useClass: TypeOrmExceptionFilter,
     },
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+    AuthService,
   ],
 })
 export class AppModule {}
