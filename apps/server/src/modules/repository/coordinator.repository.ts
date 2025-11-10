@@ -3,4 +3,5 @@ import CreateCoordinatorRequestDTO from 'modules/admin/dto/request/create-coordi
 
 export default interface ICoordinatorRepository {
   create(input: CreateCoordinatorRequestDTO): Promise<Coordenador>;
+  getById(input: number): Promise<Coordenador | null>;
 }

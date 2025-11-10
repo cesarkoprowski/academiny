@@ -57,7 +57,6 @@ import AuthGuardAdmin from 'common/security/auth/auth.admin.guard';
       provide: APP_GUARD,
       useClass: AuthGuardAdmin,
     },
-
     AuthService,
   ],
 })

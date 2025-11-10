@@ -12,6 +12,9 @@ export default class CoordinatorRepository implements ICoordinatorRepository {
     @InjectRepository(Coordenador)
     private readonly repository: Repository<Coordenador>,
   ) {}
+  async getById(input: number): Promise<Coordenador | null> {
+    return await this.repository.findOneBy({ id: input });
+  }
 
   async create(input: CreateCoordinatorRequestDTO): Promise<Coordenador> {
     const newCoordenador: Partial<Coordenador> = {
