@@ -12,6 +12,7 @@ import { DisciplinaModule } from 'modules/disciplina/disciplina.module';
 import { AtividadeExtensaoModule } from 'modules/atividade/atividade.module';
 import AuthGuard from 'common/security/auth/auth.guard';
 import AuthService from 'common/services/auth.service';
+import AuthGuardAdmin from 'common/security/auth/auth.admin.guard';
 
 @Module({
   imports: [
@@ -29,7 +30,7 @@ import AuthService from 'common/services/auth.service';
         type: 'postgres',
         host: process.env.DB_HOST || 'db',
         port: parseInt(process.env.DB_PORT || '5432'),
-        username: process.env.DB_USERNAME || 'user',
+        username: process.env.DB_USERNAME || 'postgres.mcophewsxcqhxzbxocgq',
         password: process.env.DB_PASSWORD || 'password',
         database: process.env.DB_NAME || 'academiny',
         entities: Entities,
@@ -52,6 +53,11 @@ import AuthService from 'common/services/auth.service';
       provide: APP_GUARD,
       useClass: AuthGuard,
     },
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuardAdmin,
+    },
+
     AuthService,
   ],
 })

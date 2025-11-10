@@ -27,7 +27,11 @@ export default class LoginUC
 
     if (!isValid) throw new UnauthorizedException('Login Inválido');
 
-    const jwt = this.authService.generateToken(userBD.id, userBD.email);
+    const jwt = this.authService.generateToken(
+      userBD.id,
+      userBD.email,
+      userBD.isAdmin,
+    );
 
     return {
       token: jwt,

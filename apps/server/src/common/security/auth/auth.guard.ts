@@ -48,7 +48,7 @@ export default class AuthGuard implements CanActivate {
         throw new AuthenticationException('Token inválido');
       }
 
-      request['user'] = jwtDecoded;
+      request['x-user'] = jwtDecoded;
 
       return true;
     } catch (error) {

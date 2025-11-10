@@ -15,8 +15,8 @@ export default class AuthService {
     return await bcrypt.compare(plain, hashed);
   }
 
-  generateToken(userId: number, email: string): string {
-    return sign({ userId, email }, this.jwtSecret!, {
+  generateToken(userId: number, email: string, isAdmin: boolean): string {
+    return sign({ userId, email, isAdmin }, this.jwtSecret!, {
       expiresIn: '1h',
     });
   }
