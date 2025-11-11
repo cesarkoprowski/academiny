@@ -12,6 +12,17 @@ export default class CoordinatorRepository implements ICoordinatorRepository {
     @InjectRepository(Coordenador)
     private readonly repository: Repository<Coordenador>,
   ) {}
+
+  getAll(): Promise<Coordenador[]> {
+    throw new Error('Method not implemented.');
+  }
+  delete(): Promise<void> {
+    throw new Error('Method not implemented.');
+  }
+  update(): Promise<Coordenador> {
+    throw new Error('Method not implemented.');
+  }
+
   async getById(input: number): Promise<Coordenador | null> {
     return await this.repository.findOneBy({ id: input });
   }

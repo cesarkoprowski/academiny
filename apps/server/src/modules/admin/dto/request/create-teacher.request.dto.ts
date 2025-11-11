@@ -1,4 +1,4 @@
-import { IsEmail, IsString } from 'class-validator';
+import { IsEmail, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export default class CreateTeacherRequestDTO {
   @IsString()
@@ -6,4 +6,8 @@ export default class CreateTeacherRequestDTO {
 
   @IsEmail()
   email: string;
+
+  @IsNumber()
+  @IsOptional()
+  id?: number;
 }

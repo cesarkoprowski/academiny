@@ -2,7 +2,7 @@ import { Body, Controller, Inject, Post, UseGuards } from '@nestjs/common';
 import AtividadeExtensaoCreateRequestDto from '../dto/request/atividade-create.request.dto';
 import AtividadeExtensaoCreateResponseDto from '../dto/response/atividade-create.response.dto';
 import AtividadeExtensaoCreateUC from '../usecase/atividade-create.usecase';
-import AuthGuardCoordinator from 'common/security/auth/auth.coordinator.guard';
+import AuthGuardCoordinator from 'common/security/auth/entity/auth.coordinator.guard';
 
 @Controller('atividade')
 @UseGuards(AuthGuardCoordinator)

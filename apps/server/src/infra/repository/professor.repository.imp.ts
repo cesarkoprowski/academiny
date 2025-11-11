@@ -12,19 +12,25 @@ export default class ProfessorRepository implements IProfessorRepository {
     @InjectRepository(Professor)
     private readonly repository: Repository<Professor>,
   ) {}
+  getAll(input: any): Promise<any> {
+    throw new Error('Method not implemented.');
+  }
+  delete(input: any): Promise<any> {
+    throw new Error('Method not implemented.');
+  }
+  update(input: any): Promise<any> {
+    throw new Error('Method not implemented.');
+  }
   async getById(input: number): Promise<Professor | null> {
     return await this.repository.findOneBy({
       id: input,
     });
   }
-  async create(
-    userId: number,
-    input: CreateTeacherRequestDTO,
-  ): Promise<Professor> {
+  async create(input: CreateTeacherRequestDTO): Promise<Professor> {
     const newProfessor: Partial<Professor> = {
       codigoCps: input.codigoCps,
       pessoa: {
-        id: userId,
+        id: input.id,
       } as Pessoa,
     };
     return await this.repository.save(newProfessor);

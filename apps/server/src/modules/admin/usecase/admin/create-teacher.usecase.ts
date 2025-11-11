@@ -22,11 +22,12 @@ export default class CreateTeacherUC
     input: CreateTeacherRequestDTO,
   ): Promise<CreateTeacherResponseDTO> {
     const pessoa = await this.pessoaRepository.getByEmail(input.email);
+    input.id = pessoa?.id;
 
     if (!pessoa)
       throw new NotFoundException('Não foi encontrado alguem com este email');
 
-    const professor = await this.professorRepository.create(pessoa.id, input);
+    const professor = await this.professorRepository.create(input);
 
     const createTeacherResponse = {
       codigoCps: input.codigoCps,

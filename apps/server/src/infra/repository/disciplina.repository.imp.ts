@@ -11,6 +11,18 @@ export default class DisciplinaRepository implements IDisciplinaRepository {
     @InjectRepository(Disciplina)
     private readonly disciplinaRepository: Repository<Disciplina>,
   ) {}
+  getById(input: any): Promise<any> {
+    throw new Error('Method not implemented.');
+  }
+  getAll(input: any): Promise<any> {
+    throw new Error('Method not implemented.');
+  }
+  delete(input: any): Promise<any> {
+    throw new Error('Method not implemented.');
+  }
+  update(input: any): Promise<any> {
+    throw new Error('Method not implemented.');
+  }
 
   async create(input: DisciplinaCreateRequestDto): Promise<Disciplina> {
     const newDisciplina: Partial<Disciplina> = {

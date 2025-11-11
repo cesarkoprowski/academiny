@@ -1,6 +1,6 @@
 export type UserJwt = {
   email: string;
   isAdmin: boolean;
-  id: number;
+  userId: number;
   iat: number;
 };
