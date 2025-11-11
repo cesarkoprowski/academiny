@@ -1,4 +1,16 @@
 services:
+  db:
+    image: postgres:16
+    container_name: academiny_postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_DB: academiny
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data16
+
   backend:
     build:
       context: .
@@ -8,7 +20,7 @@ services:
     ports:
       - "${PORT_BACKEND}:3000"
     volumes:
-      - ./:/app           # Monta apenas o código, não node_modules
+      - ./:/app
     environment:
       - NODE_ENV=development
 
@@ -21,8 +33,11 @@ services:
     ports:
       - "${PORT_FRONTEND}:5173"
     volumes:
-      - ./:/app           # Monta o código do frontend
+      - ./:/app
     depends_on:
       - backend
     environment:
       - NODE_ENV=development
+volumes:
+  postgres_data:
+    driver: local
