@@ -1,8 +1,8 @@
 import Pessoa from 'common/entities/pessoa/pessoa.entity';
-import UserCreateRequestDTO from 'modules/user/dto/request/user-create.request.dto';
+import { IRepository } from 'common/interface/repository.interface';
 
-export default interface IUserRepository {
-  create(input: UserCreateRequestDTO): Promise<Pessoa>;
-  getByEmail(input: string): Promise<Pessoa | null>;
-  getById(input: number): Promise<Pessoa | null>;
+export default interface IUserRepository extends IRepository {
+  getByEmail(email: string): Promise<Pessoa | null>;
+  findByCpf(cpf: string): Promise<Pessoa | null>;
+  findByNome(nome: string): Promise<Pessoa[]>;
 }

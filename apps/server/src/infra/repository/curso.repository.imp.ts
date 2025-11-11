@@ -4,6 +4,7 @@ import Curso from 'common/entities/curso/curso.entity';
 import CursoRequestCreateDto from 'modules/curso/dto/request/curso-create.request.dto';
 import ICursoRepository from 'modules/curso/repository/curso.repository';
 import { Repository } from 'typeorm';
+import { Modalidade } from 'modules/curso/enum/modalidade.enum';
 
 @Injectable()
 export default class CursoRepository implements ICursoRepository {
@@ -66,9 +67,9 @@ export default class CursoRepository implements ICursoRepository {
     return await this.cursoRepository.findOneBy({ nome });
   }
 
-  async findByModalidade(modalidade: string): Promise<Curso[]> {
+  async findByModalidade(modalidade: Modalidade): Promise<Curso[]> {
     return await this.cursoRepository.find({
-      where: { modalidade: modalidade as any },
+      where: { modalidade: modalidade },
       order: { nome: 'ASC' },
     });
   }
