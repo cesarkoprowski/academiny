@@ -11,18 +11,6 @@ export default class DisciplinaRepository implements IDisciplinaRepository {
     @InjectRepository(Disciplina)
     private readonly disciplinaRepository: Repository<Disciplina>,
   ) {}
-  getById(input: any): Promise<any> {
-    throw new Error('Method not implemented.');
-  }
-  getAll(input: any): Promise<any> {
-    throw new Error('Method not implemented.');
-  }
-  delete(input: any): Promise<any> {
-    throw new Error('Method not implemented.');
-  }
-  update(input: any): Promise<any> {
-    throw new Error('Method not implemented.');
-  }
 
   async create(input: DisciplinaCreateRequestDto): Promise<Disciplina> {
     const newDisciplina: Partial<Disciplina> = {
@@ -32,5 +20,53 @@ export default class DisciplinaRepository implements IDisciplinaRepository {
     };
 
     return await this.disciplinaRepository.save(newDisciplina);
+  }
+
+  async getById(id: number): Promise<Disciplina | null> {
+    return await this.disciplinaRepository.findOneBy({ id });
+  }
+
+  async getAll(): Promise<Disciplina[]> {
+    return await this.disciplinaRepository.find({
+      order: { nome: 'ASC' },
+    });
+  }
+
+  async update(
+    id: number,
+    input: Partial<DisciplinaCreateRequestDto>,
+  ): Promise<Disciplina | null> {
+    const disciplina = await this.disciplinaRepository.findOneBy({ id });
+
+    if (!disciplina) {
+      return null;
+    }
+
+    const updatedDisciplina = this.disciplinaRepository.merge(disciplina, {
+      ...(input.nome && { nome: input.nome }),
+      ...(input.codigo && { codigo: input.codigo }),
+      ...(input.cargaHorariaExtensao !== undefined && {
+        cargaHorariaExtensao: input.cargaHorariaExtensao,
+      }),
+    });
+
+    return await this.disciplinaRepository.save(updatedDisciplina);
+  }
+
+  async delete(id: number): Promise<boolean> {
+    const result = await this.disciplinaRepository.delete(id);
+    return (result.affected ?? 0) > 0;
+  }
+
+  async findByCodigo(codigo: string): Promise<Disciplina | null> {
+    return await this.disciplinaRepository.findOneBy({ codigo });
+  }
+
+  async findByNome(nome: string): Promise<Disciplina[]> {
+    return await this.disciplinaRepository
+      .createQueryBuilder('disciplina')
+      .where('disciplina.nome ILIKE :nome', { nome: `%${nome}%` })
+      .orderBy('disciplina.nome', 'ASC')
+      .getMany();
   }
 }

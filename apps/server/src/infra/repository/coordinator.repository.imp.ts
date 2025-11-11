@@ -13,25 +13,58 @@ export default class CoordinatorRepository implements ICoordinatorRepository {
     private readonly repository: Repository<Coordenador>,
   ) {}
 
-  getAll(): Promise<Coordenador[]> {
-    throw new Error('Method not implemented.');
-  }
-  delete(): Promise<void> {
-    throw new Error('Method not implemented.');
-  }
-  update(): Promise<Coordenador> {
-    throw new Error('Method not implemented.');
-  }
-
-  async getById(input: number): Promise<Coordenador | null> {
-    return await this.repository.findOneBy({ id: input });
-  }
-
   async create(input: CreateCoordinatorRequestDTO): Promise<Coordenador> {
     const newCoordenador: Partial<Coordenador> = {
       cursoId: input.cursoId,
       professor: { id: input.professorId } as Professor,
     };
     return await this.repository.save(newCoordenador);
+  }
+
+  async getById(id: number): Promise<Coordenador | null> {
+    return await this.repository.findOneBy({ id });
+  }
+
+  async getAll(): Promise<Coordenador[]> {
+    return await this.repository.find({
+      relations: ['professor', 'professor.pessoa'],
+      order: { id: 'DESC' },
+    });
+  }
+
+  async update(
+    id: number,
+    input: Partial<CreateCoordinatorRequestDTO>,
+  ): Promise<Coordenador | null> {
+    const coordenador = await this.repository.findOneBy({ id });
+
+    if (!coordenador) {
+      return null;
+    }
+
+    const updatedCoordenador = this.repository.merge(coordenador, {
+      ...(input.cursoId && { cursoId: input.cursoId }),
+    });
+
+    return await this.repository.save(updatedCoordenador);
+  }
+
+  async delete(id: number): Promise<boolean> {
+    const result = await this.repository.delete(id);
+    return (result.affected ?? 0) > 0;
+  }
+
+  async findByCurso(cursoId: number): Promise<Coordenador | null> {
+    return await this.repository.findOne({
+      where: { cursoId },
+      relations: ['professor', 'professor.pessoa'],
+    });
+  }
+
+  async findByProfessor(professorId: number): Promise<Coordenador | null> {
+    return await this.repository.findOne({
+      where: { professor: { id: professorId } },
+      relations: ['professor', 'professor.pessoa'],
+    });
   }
 }

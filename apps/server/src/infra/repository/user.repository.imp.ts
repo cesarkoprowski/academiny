@@ -11,21 +11,6 @@ export default class UserRepository implements IUserRepository {
     @InjectRepository(Pessoa)
     private readonly repository: Repository<Pessoa>,
   ) {}
-  async getById(input: number): Promise<Pessoa | null> {
-    return await this.repository.findOne({
-      where: {
-        id: input,
-      },
-    });
-  }
-  async getByEmail(input: string): Promise<Pessoa | null> {
-    return await this.repository.findOne({
-      where: {
-        email: input,
-      },
-    });
-  }
-
   async create(input: UserCreateRequestDTO): Promise<Pessoa> {
     const newPessoa: Partial<Pessoa> = {
       email: input.email,
@@ -34,5 +19,55 @@ export default class UserRepository implements IUserRepository {
       nome: input.nome,
     };
     return await this.repository.save(newPessoa);
+  }
+
+  async getById(id: number): Promise<Pessoa | null> {
+    return await this.repository.findOneBy({ id });
+  }
+
+  async getByEmail(email: string): Promise<Pessoa | null> {
+    return await this.repository.findOneBy({ email });
+  }
+
+  async getAll(): Promise<Pessoa[]> {
+    return await this.repository.find({
+      order: { id: 'DESC' },
+    });
+  }
+
+  async update(
+    id: number,
+    input: Partial<UserCreateRequestDTO>,
+  ): Promise<Pessoa | null> {
+    const pessoa = await this.repository.findOneBy({ id });
+
+    if (!pessoa) {
+      return null;
+    }
+
+    const updatedPessoa = this.repository.merge(pessoa, {
+      ...(input.nome && { nome: input.nome }),
+      ...(input.email && { email: input.email }),
+      ...(input.cpf && { cpf: input.cpf }),
+      ...(input.senha && { senhaHash: input.senha }),
+    });
+
+    return await this.repository.save(updatedPessoa);
+  }
+
+  async delete(id: number): Promise<boolean> {
+    const result = await this.repository.delete(id);
+    return (result.affected ?? 0) > 0;
+  }
+
+  async findByCpf(cpf: string): Promise<Pessoa | null> {
+    return await this.repository.findOneBy({ cpf });
+  }
+
+  async findByNome(nome: string): Promise<Pessoa[]> {
+    return await this.repository
+      .createQueryBuilder('pessoa')
+      .where('pessoa.nome ILIKE :nome', { nome: `%${nome}%` })
+      .getMany();
   }
 }

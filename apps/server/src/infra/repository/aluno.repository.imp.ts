@@ -11,25 +11,56 @@ export default class AlunoRepository implements IAlunoRepository {
     @InjectRepository(Aluno)
     private readonly repository: Repository<Aluno>,
   ) {}
-  getAll(input: any): Promise<any> {
-    throw new Error('Method not implemented.');
-  }
-  delete(input: any): Promise<any> {
-    throw new Error('Method not implemented.');
-  }
-  update(input: any): Promise<any> {
-    throw new Error('Method not implemented.');
-  }
-  async getById(input: number): Promise<Aluno | null> {
-    return await this.repository.findOneBy({
-      id: input,
-    });
-  }
+
   async create(input: CreateAlunoRequestDTO): Promise<Aluno> {
     const newAluno: Partial<Aluno> = {
       cursoId: input.cursoId,
       matricula: input.matricula,
     };
     return await this.repository.save(newAluno);
+  }
+
+  async getById(input: number): Promise<Aluno | null> {
+    return await this.repository.findOneBy({ id: input });
+  }
+
+  async getAll(): Promise<Aluno[]> {
+    return await this.repository.find({
+      order: { id: 'DESC' },
+    });
+  }
+
+  async update(
+    id: number,
+    input: Partial<CreateAlunoRequestDTO>,
+  ): Promise<Aluno | null> {
+    const aluno = await this.repository.findOneBy({ id });
+
+    if (!aluno) {
+      return null;
+    }
+
+    const updatedAluno = this.repository.merge(aluno, {
+      ...(input.cursoId && { cursoId: input.cursoId }),
+      ...(input.matricula && { matricula: input.matricula }),
+    });
+
+    return await this.repository.save(updatedAluno);
+  }
+
+  async delete(id: number): Promise<boolean> {
+    const result = await this.repository.delete(id);
+    return (result.affected ?? 0) > 0;
+  }
+
+  async findByMatricula(matricula: string): Promise<Aluno | null> {
+    return await this.repository.findOneBy({ matricula });
+  }
+
+  async findByCurso(cursoId: number): Promise<Aluno[]> {
+    return await this.repository.find({
+      where: { cursoId },
+      order: { matricula: 'ASC' },
+    });
   }
 }

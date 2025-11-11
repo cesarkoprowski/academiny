@@ -3,5 +3,5 @@ export interface IRepository {
   getById(input: any): Promise<any>;
   getAll(input: any): Promise<any>;
   delete(input: any): Promise<any>;
-  update(input: any): Promise<any>;
+  update(id: number, input: any): Promise<any>;
 }
