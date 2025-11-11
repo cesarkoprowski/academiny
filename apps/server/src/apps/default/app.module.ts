@@ -13,12 +13,14 @@ import { AtividadeExtensaoModule } from 'modules/atividade/atividade.module';
 import AuthGuard from 'common/security/auth/auth.guard';
 import AuthService from 'common/services/auth.service';
 import AuthGuardAdmin from 'common/security/auth/auth.admin.guard';
+import ProfessorModule from 'modules/professor/professor.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: '.env',
     }),
+    ProfessorModule,
     UserModule,
     CursoModule,
     AdminModule,
