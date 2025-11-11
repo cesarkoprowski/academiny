@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import Aluno from 'common/entities/aluno/aluno.entity';
 import CreateAlunoRequestDTO from 'modules/professor/dto/request/create-aluno.request.dto';
-import IAlunoRepository from 'modules/repository/aluno.repository';
+import IAlunoRepository from 'modules/aluno/repository/aluno.repository';
 import { Repository } from 'typeorm';
 
 @Injectable()

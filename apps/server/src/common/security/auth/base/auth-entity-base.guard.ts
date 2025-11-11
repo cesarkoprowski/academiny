@@ -7,7 +7,7 @@ import type { IRepository } from 'common/interface/repository.interface';
 
 @Injectable()
 export default class GuardEntityBase<Entity> implements CanActivate {
-  constructor(private accountService: IRepository) {}
+  constructor(private accountService: IRepository<Entity>) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request: Request = context.switchToHttp().getRequest();

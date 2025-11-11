@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import Pessoa from 'common/entities/pessoa/pessoa.entity';
 import Professor from 'common/entities/professor/professor.entity';
-import IProfessorRepository from 'modules/repository/professor.repository';
+import IProfessorRepository from 'modules/professor/repository/professor.repository';
 import CreateTeacherRequestDTO from 'modules/admin/dto/request/create-teacher.request.dto';
 import { Repository } from 'typeorm';
 

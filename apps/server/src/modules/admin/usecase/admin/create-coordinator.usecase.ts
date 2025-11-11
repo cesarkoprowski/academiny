@@ -2,7 +2,7 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { IUseCase } from 'common/interface/use-case.interface';
 import CoordinatorRepository from 'infra/repository/coordinator.repository.imp';
 import ProfessorRepository from 'infra/repository/professor.repository.imp';
-import type IProfessorRepository from 'modules/repository/professor.repository';
+import type IProfessorRepository from 'modules/professor/repository/professor.repository';
 import CreateCoordinatorRequestDTO from 'modules/admin/dto/request/create-coordinator.request.dto';
 import CreateCoordinatorResponseDTO from 'modules/admin/dto/response/create-coordinator.response.dto';
 

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import Coordenador from 'common/entities/coordenador/coordenador.entity';
 import Professor from 'common/entities/professor/professor.entity';
-import ICoordinatorRepository from 'modules/repository/coordinator.repository';
+import ICoordinatorRepository from 'modules/coordenador/repository/coordinator.repository';
 import CreateCoordinatorRequestDTO from 'modules/admin/dto/request/create-coordinator.request.dto';
 import { Repository } from 'typeorm';
 

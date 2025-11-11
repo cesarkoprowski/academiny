@@ -1,7 +1,7 @@
-export interface IRepository {
-  create(input: any): Promise<any>;
-  getById(input: any): Promise<any>;
-  getAll(input: any): Promise<any>;
-  delete(input: any): Promise<any>;
-  update(id: number, input: any): Promise<any>;
+export interface IRepository<Entity> {
+  create(input: Partial<Entity>): Promise<Entity>;
+  getById(input: number): Promise<Entity | null>;
+  getAll(): Promise<Entity[]>;
+  delete(input: number): Promise<boolean>;
+  update(id: number, input: Partial<Entity>): Promise<Entity | null>;
 }

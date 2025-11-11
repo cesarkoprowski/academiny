@@ -3,7 +3,7 @@ import { IUseCase } from 'common/interface/use-case.interface';
 import UserRepository from 'infra/repository/user.repository.imp';
 import AlunoCreateResponseDTO from '../dto/response/create-aluno.response.dto';
 import AlunoCreateRequestDTO from '../dto/request/create-aluno.request.dto';
-import type IAlunoRepository from '../../repository/aluno.repository';
+import type IAlunoRepository from '../../aluno/repository/aluno.repository';
 import AlunoRepository from 'infra/repository/aluno.repository.imp';
 
 @Injectable()
