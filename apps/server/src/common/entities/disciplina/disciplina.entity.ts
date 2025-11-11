@@ -1,7 +1,6 @@
-import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('disciplina')
-
 export default class Disciplina {
   @PrimaryGeneratedColumn()
   id: number;
@@ -11,7 +10,7 @@ export default class Disciplina {
 
   @Column()
   codigo: string;
-  
+
   @Column()
   cargaHorariaExtensao: number;
 }

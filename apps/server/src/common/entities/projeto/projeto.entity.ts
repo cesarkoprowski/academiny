@@ -1,21 +1,39 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import AtividadeExtensao from '../atividade/atividade.entity';
+import Professor from '../professor/professor.entity';
+import { EProjetoStatus } from 'modules/projeto/enum/projeto-status.enum';
 
 @Entity('projeto_extensao')
 export default class ProjetoExtensao {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  atividadeExtensao: number;
+  @Column({ unique: true })
+  nome: string;
 
-  @Column()
-  professorAvaliadorId: number;
+  @ManyToOne(() => AtividadeExtensao)
+  @JoinColumn({ name: 'atividade_extensao_id' })
+  atividadeExtensao: AtividadeExtensao;
+
+  @ManyToOne(() => Professor)
+  @JoinColumn({ name: 'professor_id' })
+  professorAvaliadorId: Professor;
 
   @Column()
   resumo: string;
 
-  @Column()
-  status: 'Reprovado' | 'Aprovado' | 'Pendente';
+  @Column({
+    type: 'enum',
+    enum: EProjetoStatus,
+    default: EProjetoStatus.PENDENTE,
+  })
+  status: EProjetoStatus;
 
   @Column()
   urlAnexo: string;

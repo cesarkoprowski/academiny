@@ -6,7 +6,7 @@ import AlunoRepository from 'infra/repository/aluno.repository.imp';
 @Injectable()
 export default class AuthGuardAluno extends GuardEntityBase<Aluno> {
   constructor(
-    @Inject(Aluno)
+    @Inject(AlunoRepository)
     accountService: AlunoRepository,
   ) {
     super(accountService);

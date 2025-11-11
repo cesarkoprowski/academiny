@@ -9,12 +9,16 @@ import { UserJwt } from 'common/security/auth/type/user-jwt.type';
 import type { AuthenticatedRequest } from 'common/types/authenticated.request';
 import AlunoRepository from 'infra/repository/aluno.repository.imp';
 import GetMeRequestDto from '../dto/response/get-me.aluno';
+import ProjetoExtensaoRepository from 'infra/repository/projeto.repository.imp';
+import type IProjetoExtensaoRepository from 'modules/projeto/repository/projeto.repository';
 
 @Controller('aluno')
 export class AlunoController {
   constructor(
     @Inject(AlunoRepository)
     private readonly repository: AlunoRepository,
+    @Inject(ProjetoExtensaoRepository)
+    private readonly projetoRepository: IProjetoExtensaoRepository,
   ) {}
 
   @Get('me')

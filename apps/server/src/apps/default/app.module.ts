@@ -16,6 +16,7 @@ import AuthGuardAdmin from 'common/security/auth/auth.admin.guard';
 import ProfessorModule from 'modules/professor/professor.module';
 import AlunoModule from 'modules/aluno/aluno.module';
 import CoordenadorModule from 'modules/coordenador/coordinator.module';
+import { ProjetoExtensaoModule } from 'modules/projeto/projeto.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import CoordenadorModule from 'modules/coordenador/coordinator.module';
     UserModule,
     CursoModule,
     AdminModule,
+    ProjetoExtensaoModule,
     AlunoModule,
     DisciplinaModule,
     CoordenadorModule,

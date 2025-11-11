@@ -5,6 +5,7 @@ import {
   ConflictException,
   InternalServerErrorException,
   HttpException,
+  NotFoundException,
 } from '@nestjs/common';
 import { QueryFailedError } from 'typeorm';
 import { EErrorBDCodes } from '../enum/error-codes-bd.enum';
@@ -33,11 +34,17 @@ export class TypeOrmExceptionFilter implements ExceptionFilter {
 
     const postgresError = exception as PostgresError;
 
-    if (postgresError.code === EErrorBDCodes.DUPLICATE_REGISTER_BD) {
+    if (postgresError.code === EErrorBDCodes.FOREIGN_KEY_ERROR) {
+      errorResponse = new NotFoundException({
+        message: 'Registro relacionado não encontrado',
+        error: 'NotFound',
+        details: this.extractKeyInfo(postgresError.detail || ''),
+      } as ErrorResponse);
+    } else if (postgresError.code === EErrorBDCodes.DUPLICATE_REGISTER_BD) {
       errorResponse = new ConflictException({
-        message: 'Registro duplicado. Este item já existe no sistema.',
+        message: 'Registro já existe',
         error: 'Conflict',
-        details: this.extractDuplicateField(postgresError.detail || ''),
+        details: this.extractKeyInfo(postgresError.detail || ''),
       } as ErrorResponse);
     } else {
       errorResponse = new InternalServerErrorException({
@@ -63,12 +70,19 @@ export class TypeOrmExceptionFilter implements ExceptionFilter {
     });
   }
 
-  private extractDuplicateField(detail: string): string | undefined {
+  private extractKeyInfo(detail: string): string | undefined {
     if (!detail) return undefined;
 
-    // Extrai o campo duplicado da mensagem de erro do PostgreSQL
+    // Extrai o campo e valor do erro
     // Ex: "Key (email)=(test@test.com) already exists."
-    const match = detail.match(/Key \(([^)]+)\)/);
-    return match ? `Campo '${match[1]}' já existe` : 'Campo duplicado';
+    // Ex: "Key (professor_id)=(999) is not present in table "professor""
+    const match = detail.match(/Key \(([^)]+)\)=\(([^)]+)\)/);
+
+    if (match) {
+      const [, field, value] = match;
+      return `Campo '${field}' com valor '${value}'`;
+    }
+
+    return undefined;
   }
 }

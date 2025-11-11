@@ -6,10 +6,17 @@ import Pessoa from 'common/entities/pessoa/pessoa.entity';
 import Aluno from 'common/entities/aluno/aluno.entity';
 import CreateAlunoUC from 'modules/professor/usecase/create-aluno.use.case';
 import UserRepository from 'infra/repository/user.repository.imp';
+import ProjetoExtensao from 'common/entities/projeto/projeto.entity';
+import ProjetoExtensaoRepository from 'infra/repository/projeto.repository.imp';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Pessoa, Aluno])],
+  imports: [TypeOrmModule.forFeature([Pessoa, Aluno, ProjetoExtensao])],
   controllers: [AlunoController],
-  providers: [AlunoRepository, CreateAlunoUC, UserRepository],
+  providers: [
+    AlunoRepository,
+    CreateAlunoUC,
+    UserRepository,
+    ProjetoExtensaoRepository,
+  ],
 })
 export default class AlunoModule {}
