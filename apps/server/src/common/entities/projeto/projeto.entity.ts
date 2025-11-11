@@ -1,7 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('projeto_extensao')
-
 export default class ProjetoExtensao {
   @PrimaryGeneratedColumn()
   id: number;

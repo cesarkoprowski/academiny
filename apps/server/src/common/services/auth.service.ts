@@ -5,7 +5,7 @@ import { sign, verify, JwtPayload } from 'jsonwebtoken';
 @Injectable()
 export default class AuthService {
   private readonly saltRounds = 12;
-  private readonly jwtSecret = process.env.JWT_SECRET || 'ITHALLOMINEIRO';
+  private readonly jwtSecret = process.env.JWT_SECRET;
 
   async createHash(password: string): Promise<string> {
     return await bcrypt.hash(password, this.saltRounds);
@@ -15,15 +15,15 @@ export default class AuthService {
     return await bcrypt.compare(plain, hashed);
   }
 
-  generateToken(userId: number, email: string): string {
-    return sign({ userId, email }, this.jwtSecret, {
-      expiresIn: Math.floor(Date.now() / 1000),
+  generateToken(userId: number, email: string, isAdmin: boolean): string {
+    return sign({ userId, email, isAdmin }, this.jwtSecret!, {
+      expiresIn: '1h',
     });
   }
 
   verifyToken(token: string): string | JwtPayload {
     try {
-      return verify(token, this.jwtSecret);
+      return verify(token, this.jwtSecret!);
     } catch {
       throw new Error('Invalid token');
     }

@@ -1,15 +1,15 @@
 services:
-  db:
-    image: postgres:16
-    container_name: academiny_postgres
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: "password"
-      POSTGRES_DB: academiny
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data16
+  # db:
+  #   image: postgres:16
+  #   container_name: academiny_postgres
+  #   environment:
+  #     POSTGRES_USER: user
+  #     POSTGRES_PASSWORD: "password"
+  #     POSTGRES_DB: academiny
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data16
 
   backend:
     build:
@@ -38,6 +38,6 @@ services:
       - backend
     environment:
       - NODE_ENV=development
-volumes:
-  postgres_data:
-    driver: local
+# volumes:
+#   postgres_data:
+#     driver: local

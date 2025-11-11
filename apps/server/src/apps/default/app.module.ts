@@ -2,21 +2,37 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { Entities } from 'common/entities/index.entity';
-import UserModule from 'modules/user-account/user.module';
+import UserModule from 'modules/user/user.module';
+import { CursoModule } from 'modules/curso/curso.module';
+import { TypeOrmExceptionFilter } from 'common/error/filter/typeorm.exeception.filter';
+import AdminModule from 'modules/admin/admin.module';
+import { DisciplinaModule } from 'modules/disciplina/disciplina.module';
+import { AtividadeExtensaoModule } from 'modules/atividade/atividade.module';
+import AuthGuard from 'common/security/auth/auth.guard';
+import AuthService from 'common/services/auth.service';
+import AuthGuardAdmin from 'common/security/auth/auth.admin.guard';
+import ProfessorModule from 'modules/professor/professor.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: '.env.example',
+      envFilePath: '.env',
     }),
+    ProfessorModule,
     UserModule,
-
+    CursoModule,
+    AdminModule,
+    DisciplinaModule,
+    AtividadeExtensaoModule,
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
+        schema: 'public',
         type: 'postgres',
         host: process.env.DB_HOST || 'db',
         port: parseInt(process.env.DB_PORT || '5432'),
-        username: process.env.DB_USERNAME || 'user',
+        username: process.env.DB_USERNAME || 'postgres.mcophewsxcqhxzbxocgq',
         password: process.env.DB_PASSWORD || 'password',
         database: process.env.DB_NAME || 'academiny',
         entities: Entities,
@@ -30,6 +46,20 @@ import UserModule from 'modules/user-account/user.module';
     }),
   ],
   controllers: [AppController],
-  providers: [],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: TypeOrmExceptionFilter,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuardAdmin,
+    },
+    AuthService,
+  ],
 })
 export class AppModule {}

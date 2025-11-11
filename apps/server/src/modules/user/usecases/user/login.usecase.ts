@@ -2,9 +2,9 @@ import { Inject, UnauthorizedException } from '@nestjs/common';
 import { IUseCase } from 'common/interface/use-case.interface';
 import AuthService from 'common/services/auth.service';
 import UserRepository from 'infra/repository/user.repository.imp';
-import type IUserRepository from 'modules/repository/user.repository';
-import LoginRequestDTO from 'modules/user-account/dto/request/login.request';
-import LoginResponseDTO from 'modules/user-account/dto/response/login.response.dto';
+import type IUserRepository from 'modules/user/repository/user.repository';
+import LoginRequestDTO from 'modules/user/dto/request/login.request';
+import LoginResponseDTO from 'modules/user/dto/response/login.response.dto';
 
 export default class LoginUC
   implements IUseCase<LoginRequestDTO, LoginResponseDTO>
@@ -27,7 +27,11 @@ export default class LoginUC
 
     if (!isValid) throw new UnauthorizedException('Login Inválido');
 
-    const jwt = this.authService.generateToken(userBD.id, userBD.email);
+    const jwt = this.authService.generateToken(
+      userBD.id,
+      userBD.email,
+      userBD.isAdmin,
+    );
 
     return {
       token: jwt,

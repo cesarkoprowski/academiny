@@ -16,4 +16,7 @@ export default class Pessoa {
 
   @Column()
   senhaHash: string;
+
+  @Column({ default: 'false', type: 'boolean' })
+  isAdmin: boolean = false;
 }
