@@ -15,6 +15,8 @@ export default class GuardEntityBase<Entity> implements CanActivate {
 
     if (!user) return false;
 
+    if (user.isAdmin) return true;
+
     const entity: Entity | null = await this.accountService.getById(
       user.userId,
     );
