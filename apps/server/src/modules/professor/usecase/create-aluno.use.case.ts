@@ -25,6 +25,7 @@ export default class CreateAlunoUC
         'Não foi encontrado nenhuma pessoa com esse id',
       );
 
+    input.id = pessoa.id;
     const aluno = await this.alunoRepository.create(input);
 
     const createAlunoResponse: AlunoCreateResponseDTO = {

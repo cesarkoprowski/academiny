@@ -4,6 +4,7 @@ import Aluno from 'common/entities/aluno/aluno.entity';
 import CreateAlunoRequestDTO from 'modules/professor/dto/request/create-aluno.request.dto';
 import IAlunoRepository from 'modules/aluno/repository/aluno.repository';
 import { Repository } from 'typeorm';
+import Pessoa from 'common/entities/pessoa/pessoa.entity';
 
 @Injectable()
 export default class AlunoRepository implements IAlunoRepository {
@@ -16,12 +17,22 @@ export default class AlunoRepository implements IAlunoRepository {
     const newAluno: Partial<Aluno> = {
       cursoId: input.cursoId,
       matricula: input.matricula,
+      pessoa: {
+        id: input.id,
+      } as Pessoa,
     };
     return await this.repository.save(newAluno);
   }
 
   async getById(input: number): Promise<Aluno | null> {
-    return await this.repository.findOneBy({ id: input });
+    return await this.repository.findOne({
+      where: {
+        pessoa: {
+          id: input,
+        },
+      },
+      relations: ['pessoa'],
+    });
   }
 
   async getAll(): Promise<Aluno[]> {

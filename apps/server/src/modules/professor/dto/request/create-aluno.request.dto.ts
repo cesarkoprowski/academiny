@@ -1,4 +1,10 @@
-import { IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export default class AlunoCreateRequestDTO {
   @IsNumber()
@@ -8,4 +14,8 @@ export default class AlunoCreateRequestDTO {
   matricula: string;
   @IsEmail()
   email: string;
+
+  @IsNumber()
+  @IsOptional()
+  id?: number;
 }

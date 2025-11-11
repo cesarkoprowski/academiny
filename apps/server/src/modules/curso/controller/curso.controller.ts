@@ -2,6 +2,7 @@ import { Body, Controller, Inject, Post } from '@nestjs/common';
 import CursoRequestCreateDto from '../dto/request/curso-create.request.dto';
 import CursoResponseCreateDto from '../dto/response/curso-create.response.dto';
 import CreateCursoUC from '../usecase/create-curso.usecase';
+import { Admin } from 'common/decorators/public.decorator';
 
 @Controller('curso')
 export default class CursoController {
@@ -10,6 +11,7 @@ export default class CursoController {
     private readonly createCursoUC: CreateCursoUC,
   ) {}
 
+  @Admin()
   @Post()
   async createCurso(
     @Body() cursoCreateDto: CursoRequestCreateDto,
