@@ -21,6 +21,8 @@ services:
       - "${PORT_BACKEND}:3000"
     volumes:
       - ./:/app
+      - /app/node_modules
+      - /app/apps/server/node_modules
     environment:
       - NODE_ENV=production
 
@@ -32,6 +34,8 @@ services:
       - "${PORT_FRONTEND}:5173"
     volumes:
       - ./:/app
+      - /app/node_modules
+      - /app/apps/client/node_modules
     depends_on:
       - backend
     environment:
