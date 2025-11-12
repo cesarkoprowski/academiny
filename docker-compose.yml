@@ -28,8 +28,6 @@ services:
     build:
       context: .
       dockerfile: ./apps/client/Dockerfile
-    env_file:
-      - .env
     ports:
       - "${PORT_FRONTEND}:5173"
     volumes:

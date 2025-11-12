@@ -17,7 +17,6 @@ import ProfessorModule from 'modules/professor/professor.module';
 import AlunoModule from 'modules/aluno/aluno.module';
 import CoordenadorModule from 'modules/coordenador/coordinator.module';
 import { ProjetoExtensaoModule } from 'modules/projeto/projeto.module';
-import CursoDisciplinaModule from 'modules/aggregates/curso-disciplina/curso-disciplina.module';
 
 @Module({
   imports: [
@@ -34,7 +33,6 @@ import CursoDisciplinaModule from 'modules/aggregates/curso-disciplina/curso-dis
     CoordenadorModule,
     AtividadeExtensaoModule,
     AlunoModule,
-    CursoDisciplinaModule,
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
         schema: 'public',

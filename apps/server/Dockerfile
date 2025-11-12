@@ -23,5 +23,5 @@ WORKDIR /app/apps/server
 EXPOSE 3000
 
 # Comando para hot-reload com ts-node-dev
-CMD ["npx", "ts-node-dev", "-r", "tsconfig-paths/register", "--respawn", "--transpile-only", "src/main.ts"]
+CMD ["pnpm", "dlx", "ts-node-dev", "-r", "tsconfig-paths/register", "--respawn", "--transpile-only", "src/main.ts"]
 
