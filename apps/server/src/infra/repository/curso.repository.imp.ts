@@ -15,7 +15,7 @@ export default class CursoRepository implements ICursoRepository {
 
   async create(input: CursoRequestCreateDto): Promise<Curso> {
     const newCurso: Partial<Curso> = {
-      cargaHorarioExtensao: input.cargaHorarioExtensao,
+      cargaHorariaExtensao: input.cargaHorariaExtensao,
       modalidade: input.modalidade,
       nome: input.nome,
       turno: input.turno,
@@ -50,8 +50,8 @@ export default class CursoRepository implements ICursoRepository {
       ...(input.modalidade && { modalidade: input.modalidade }),
       ...(input.turno && { turno: input.turno }),
       ...(input.vagas !== undefined && { vagas: input.vagas }),
-      ...(input.cargaHorarioExtensao !== undefined && {
-        cargaHorarioExtensao: input.cargaHorarioExtensao,
+      ...(input.cargaHorariaExtensao !== undefined && {
+        cargaHorariaExtensao: input.cargaHorariaExtensao,
       }),
     });
 

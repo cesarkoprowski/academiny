@@ -20,5 +20,5 @@ export default class Curso {
   vagas: number;
 
   @Column()
-  cargaHorarioExtensao: number;
+  cargaHorariaExtensao: number;
 }

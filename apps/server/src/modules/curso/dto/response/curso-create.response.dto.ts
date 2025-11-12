@@ -23,5 +23,5 @@ export default class CursoResponseCreateDto {
   vagas: number;
 
   @IsNumber()
-  cargaHorarioExtensao: number;
+  cargaHorariaExtensao: number;
 }

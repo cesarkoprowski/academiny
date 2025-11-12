@@ -2,8 +2,8 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { IUseCase } from 'common/interface/use-case.interface';
 import ProfessorRepository from 'infra/repository/professor.repository.imp';
 import UserRepository from 'infra/repository/user.repository.imp';
-import CreateTeacherRequestDTO from 'modules/admin/dto/request/create-teacher.request.dto';
-import CreateTeacherResponseDTO from 'modules/admin/dto/response/create-teacher.response.dto';
+import CreateTeacherRequestDTO from 'modules/coordenador/dto/request/create-teacher.request.dto';
+import CreateTeacherResponseDTO from 'modules/coordenador/dto/response/create-teacher.response.dto';
 import type IProfessorRepository from 'modules/professor/repository/professor.repository';
 import type IUserRepository from 'modules/user/repository/user.repository';
 

@@ -4,10 +4,12 @@ import {
   JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
+  Unique,
 } from 'typeorm';
 import Professor from '../professor/professor.entity';
 
 @Entity('coordenador')
+@Unique(['cursoId'])
 export default class Coordenador {
   @PrimaryGeneratedColumn()
   id: number;

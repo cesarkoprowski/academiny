@@ -1,5 +1,5 @@
 import { Body, Controller, Inject, Post, UseGuards } from '@nestjs/common';
-import CreateTeacherRequestDTO from 'modules/admin/dto/request/create-teacher.request.dto';
+import CreateTeacherRequestDTO from 'modules/coordenador/dto/request/create-teacher.request.dto';
 import CreateTeacherUC from '../usecase/create-teacher.usecase';
 import AuthGuardCoordinator from 'common/security/auth/entity/auth.coordinator.guard';
 

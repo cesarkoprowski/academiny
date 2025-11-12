@@ -16,7 +16,7 @@ export default class CreateCursoUC
     const newCurso = await this.respository.create(input);
 
     const cursoResponseCreate = {
-      cargaHorarioExtensao: newCurso.cargaHorarioExtensao,
+      cargaHorariaExtensao: newCurso.cargaHorariaExtensao,
       id: newCurso.id,
       modalidade: newCurso.modalidade,
       nome: newCurso.nome,

@@ -21,5 +21,5 @@ export default class CursoRequestCreateDto {
   vagas: number;
 
   @IsNumber()
-  cargaHorarioExtensao: number;
+  cargaHorariaExtensao: number;
 }
