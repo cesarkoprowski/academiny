@@ -4,6 +4,7 @@ import {
   Get,
   Inject,
   NotFoundException,
+  Patch,
   Post,
   Req,
   UseGuards,
@@ -24,6 +25,9 @@ import UnsubscribeAtividadeResponseDto from '../dto/response/unsubscribe-ativida
 import CreateProjetoUC from '../usecase/create-projeto.usecase';
 import CreateProjetoRequestDto from '../dto/request/create-projeto.request.dto';
 import CreateProjetoResponseDto from '../dto/response/create-projeto.response.dto';
+import UpdateProjetoUC from '../usecase/update-projeto.usecase';
+import UpdateProjetoRequestDto from '../dto/request/update-projeto.request.dto';
+import UpdateProjetoResponseDto from '../dto/response/update-projeto.response.dto';
 
 @Controller('aluno')
 @UseGuards(AuthGuardAluno)
@@ -39,6 +43,8 @@ export class AlunoController {
     private readonly unsubscribeActivityUC: UnsubscribeActivityUC,
     @Inject(CreateProjetoUC)
     private readonly createProjetoUC: CreateProjetoUC,
+    @Inject(UpdateProjetoUC)
+    private readonly updateProjetoUC: UpdateProjetoUC,
   ) {}
 
   @Get('me')
@@ -90,6 +96,16 @@ export class AlunoController {
     const userBD = await this.checkAlunoHelper(req);
 
     return await this.createProjetoUC.execute(userBD.pessoa.id, input);
+  }
+
+  @Patch('projeto')
+  async updateProjeto(
+    @Req() req: AuthenticatedRequest,
+    @Body() input: UpdateProjetoRequestDto,
+  ): Promise<UpdateProjetoResponseDto> {
+    const userBD = await this.checkAlunoHelper(req);
+
+    return await this.updateProjetoUC.execute(userBD.pessoa.id, input);
   }
 
   private async checkAlunoHelper(request: AuthenticatedRequest) {

@@ -17,6 +17,7 @@ import UnsubscribeActivityUC from './usecase/desinscrever-atividade.usecase';
 import CreateProjetoUC from './usecase/create-projeto.usecase';
 import AlunoProjetoExtensao from 'common/aggregate/aluno-projeto/aluno.projeto.aggregate';
 import AlunoProjetoRepository from 'infra/repository/aluno-projeto.repository.imp';
+import UpdateProjetoUC from './usecase/update-projeto.usecase';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import AlunoProjetoRepository from 'infra/repository/aluno-projeto.repository.im
     SubscribeActivityUC,
     UnsubscribeActivityUC,
     CreateProjetoUC,
+    UpdateProjetoUC,
     AlunoAtividadeRepository,
     AtividadeExtensaoRepository,
     AlunoProjetoRepository,
