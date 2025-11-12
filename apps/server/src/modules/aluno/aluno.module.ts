@@ -19,6 +19,7 @@ import AlunoProjetoExtensao from 'common/aggregate/aluno-projeto/aluno.projeto.a
 import AlunoProjetoRepository from 'infra/repository/aluno-projeto.repository.imp';
 import UpdateProjetoUC from './usecase/update-projeto.usecase';
 import GetProjetosUC from './usecase/get-projetos.usecase';
+import GetAllAtividadesUC from './usecase/get-all-atividades.usecase';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import GetProjetosUC from './usecase/get-projetos.usecase';
     CreateProjetoUC,
     UpdateProjetoUC,
     GetProjetosUC,
+    GetAllAtividadesUC,
     AlunoAtividadeRepository,
     AtividadeExtensaoRepository,
     AlunoProjetoRepository,

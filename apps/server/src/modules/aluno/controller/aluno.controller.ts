@@ -30,6 +30,8 @@ import UpdateProjetoRequestDto from '../dto/request/update-projeto.request.dto';
 import UpdateProjetoResponseDto from '../dto/response/update-projeto.response.dto';
 import GetProjetosUC from '../usecase/get-projetos.usecase';
 import GetProjetosResponseDto from '../dto/response/get-projetos.response.dto';
+import GetAllAtividadesUC from '../usecase/get-all-atividades.usecase';
+import GetAllAtividadesResponseDto from '../dto/response/get-all-atividades.response.dto';
 
 @Controller('aluno')
 @UseGuards(AuthGuardAluno)
@@ -49,6 +51,8 @@ export class AlunoController {
     private readonly updateProjetoUC: UpdateProjetoUC,
     @Inject(GetProjetosUC)
     private readonly getProjetosUC: GetProjetosUC,
+    @Inject(GetAllAtividadesUC)
+    private readonly getAllAtividadesUC: GetAllAtividadesUC,
   ) {}
 
   @Get('me')
@@ -119,6 +123,15 @@ export class AlunoController {
     const userBD = await this.checkAlunoHelper(req);
 
     return await this.getProjetosUC.execute(userBD.pessoa.id);
+  }
+
+  @Get('atividade')
+  async getAtividades(
+    @Req() req: AuthenticatedRequest,
+  ): Promise<GetAllAtividadesResponseDto[]> {
+    const userBD = await this.checkAlunoHelper(req);
+
+    return await this.getAllAtividadesUC.execute(userBD.pessoa.id);
   }
 
   private async checkAlunoHelper(request: AuthenticatedRequest) {
