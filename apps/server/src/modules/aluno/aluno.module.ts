@@ -14,6 +14,9 @@ import AlunoAtividadeRepository from 'infra/repository/aluno-atividade.repositor
 import AtividadeExtensao from 'common/entities/atividade/atividade.entity';
 import AtividadeExtensaoRepository from 'infra/repository/atividade.repository.imp';
 import UnsubscribeActivityUC from './usecase/desinscrever-atividade.usecase';
+import CreateProjetoUC from './usecase/create-projeto.usecase';
+import AlunoProjetoExtensao from 'common/aggregate/aluno-projeto/aluno.projeto.aggregate';
+import AlunoProjetoRepository from 'infra/repository/aluno-projeto.repository.imp';
 
 @Module({
   imports: [
@@ -23,6 +26,7 @@ import UnsubscribeActivityUC from './usecase/desinscrever-atividade.usecase';
       ProjetoExtensao,
       AlunoAtividadeExtensao,
       AtividadeExtensao,
+      AlunoProjetoExtensao,
     ]),
   ],
   controllers: [AlunoController],
@@ -33,8 +37,10 @@ import UnsubscribeActivityUC from './usecase/desinscrever-atividade.usecase';
     ProjetoExtensaoRepository,
     SubscribeActivityUC,
     UnsubscribeActivityUC,
+    CreateProjetoUC,
     AlunoAtividadeRepository,
     AtividadeExtensaoRepository,
+    AlunoProjetoRepository,
   ],
 })
 export default class AlunoModule {}

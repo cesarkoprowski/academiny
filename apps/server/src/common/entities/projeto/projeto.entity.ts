@@ -35,9 +35,9 @@ export default class ProjetoExtensao {
   })
   status: EProjetoStatus;
 
-  @Column()
+  @Column({ nullable: true })
   urlAnexo: string;
 
-  @Column()
+  @Column({ nullable: true })
   feedbackProfessor: string;
 }

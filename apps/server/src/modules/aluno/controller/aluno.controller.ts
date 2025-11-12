@@ -21,6 +21,9 @@ import AuthGuardAluno from 'common/security/auth/entity/auth.aluno.guard';
 import UnsubscribeActivityUC from '../usecase/desinscrever-atividade.usecase';
 import UnsubscribeAtividadeRequestDto from '../dto/request/unsubscribe-atividade.request.dto';
 import UnsubscribeAtividadeResponseDto from '../dto/response/unsubscribe-atividade.response.dto';
+import CreateProjetoUC from '../usecase/create-projeto.usecase';
+import CreateProjetoRequestDto from '../dto/request/create-projeto.request.dto';
+import CreateProjetoResponseDto from '../dto/response/create-projeto.response.dto';
 
 @Controller('aluno')
 @UseGuards(AuthGuardAluno)
@@ -34,6 +37,8 @@ export class AlunoController {
     private readonly subscribeActivityUC: SubscribeActivityUC,
     @Inject(UnsubscribeActivityUC)
     private readonly unsubscribeActivityUC: UnsubscribeActivityUC,
+    @Inject(CreateProjetoUC)
+    private readonly createProjetoUC: CreateProjetoUC,
   ) {}
 
   @Get('me')
@@ -75,6 +80,16 @@ export class AlunoController {
       alunoId: userBD.pessoa.id,
       atividadeExtensaoId: input.atividadeExtensaoId,
     });
+  }
+
+  @Post('projeto')
+  async createProjeto(
+    @Req() req: AuthenticatedRequest,
+    @Body() input: CreateProjetoRequestDto,
+  ): Promise<CreateProjetoResponseDto> {
+    const userBD = await this.checkAlunoHelper(req);
+
+    return await this.createProjetoUC.execute(userBD.pessoa.id, input);
   }
 
   private async checkAlunoHelper(request: AuthenticatedRequest) {
