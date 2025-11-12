@@ -22,7 +22,13 @@ export default class CoordinatorRepository implements ICoordinatorRepository {
   }
 
   async getById(id: number): Promise<Coordenador | null> {
-    return await this.repository.findOneBy({ id });
+    return await this.repository.findOneBy({
+      professor: {
+        pessoa: {
+          id,
+        },
+      },
+    });
   }
 
   async getAll(): Promise<Coordenador[]> {
