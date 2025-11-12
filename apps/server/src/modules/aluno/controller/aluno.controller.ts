@@ -28,6 +28,8 @@ import CreateProjetoResponseDto from '../dto/response/create-projeto.response.dt
 import UpdateProjetoUC from '../usecase/update-projeto.usecase';
 import UpdateProjetoRequestDto from '../dto/request/update-projeto.request.dto';
 import UpdateProjetoResponseDto from '../dto/response/update-projeto.response.dto';
+import GetProjetosUC from '../usecase/get-projetos.usecase';
+import GetProjetosResponseDto from '../dto/response/get-projetos.response.dto';
 
 @Controller('aluno')
 @UseGuards(AuthGuardAluno)
@@ -45,6 +47,8 @@ export class AlunoController {
     private readonly createProjetoUC: CreateProjetoUC,
     @Inject(UpdateProjetoUC)
     private readonly updateProjetoUC: UpdateProjetoUC,
+    @Inject(GetProjetosUC)
+    private readonly getProjetosUC: GetProjetosUC,
   ) {}
 
   @Get('me')
@@ -106,6 +110,15 @@ export class AlunoController {
     const userBD = await this.checkAlunoHelper(req);
 
     return await this.updateProjetoUC.execute(userBD.pessoa.id, input);
+  }
+
+  @Get('projeto')
+  async getProjetos(
+    @Req() req: AuthenticatedRequest,
+  ): Promise<GetProjetosResponseDto[]> {
+    const userBD = await this.checkAlunoHelper(req);
+
+    return await this.getProjetosUC.execute(userBD.pessoa.id);
   }
 
   private async checkAlunoHelper(request: AuthenticatedRequest) {

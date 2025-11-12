@@ -27,7 +27,12 @@ export default class ProjetoExtensaoRepository
   }
 
   async getById(id: number): Promise<ProjetoExtensao | null> {
-    return await this.repository.findOneBy({ id });
+    return await this.repository.findOne({
+      where: {
+        id,
+      },
+      relations: ['atividadeExtensao', 'professorAvaliadorId'],
+    });
   }
 
   async getAll(): Promise<ProjetoExtensao[]> {

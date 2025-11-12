@@ -63,6 +63,7 @@ export default class CreateProjetoUC {
       resumo: projeto.resumo,
       status: projeto.status,
       urlAnexo: projeto.urlAnexo,
+      nome: projeto.nome,
     };
   }
 }

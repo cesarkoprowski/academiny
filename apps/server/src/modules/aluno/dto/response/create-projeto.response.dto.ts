@@ -19,4 +19,7 @@ export default class CreateProjetoResponseDto {
 
   @IsString()
   urlAnexo: string;
+
+  @IsString()
+  nome: string;
 }
