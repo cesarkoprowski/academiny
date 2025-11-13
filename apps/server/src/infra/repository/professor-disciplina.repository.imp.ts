@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import ProfessorDisciplina from 'common/aggregate/professor-disciplina/professor.disciplina.aggregate';
+import ProfessorDisciplina from 'common/aggregate/professor-disciplina/professor-disciplina.aggregate';
 import { Repository } from 'typeorm';
 
 @Injectable()

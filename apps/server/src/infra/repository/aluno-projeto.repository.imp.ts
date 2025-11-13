@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import AlunoProjetoExtensao from 'common/aggregate/aluno-projeto/aluno.projeto.aggregate';
+import AlunoProjetoExtensao from 'common/aggregate/aluno-projeto/aluno-projeto.aggregate';
 import { Repository } from 'typeorm';
 
 @Injectable()

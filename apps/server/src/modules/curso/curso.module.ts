@@ -4,11 +4,16 @@ import CreateCursoUC from './usecase/create-curso.usecase';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import Curso from 'common/entities/curso/curso.entity';
 import CursoRepository from 'infra/repository/curso.repository.imp';
+import CoordinatorRepository from 'infra/repository/coordinator.repository.imp';
+import Coordenador from 'common/entities/coordenador/coordenador.entity';
+import CreateLinkDisciplineUC from './usecase/create-link-discipline.usecase';
+import CursoDisciplinaRepository from 'infra/repository/curso-disciplina.repository.imp';
+import CursoDisciplina from 'common/aggregate/curso-disciplina/curso-disciplina.aggregate';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Curso])],
+  imports: [TypeOrmModule.forFeature([Curso]), TypeOrmModule.forFeature([Coordenador]), TypeOrmModule.forFeature([CursoDisciplina])],
   controllers: [CursoController],
   exports: [],
-  providers: [CreateCursoUC, CursoRepository],
+  providers: [CreateCursoUC, CursoRepository, CoordinatorRepository, CreateLinkDisciplineUC, CursoDisciplinaRepository],
 })
 export class CursoModule {}

@@ -15,7 +15,7 @@ import AtividadeExtensao from 'common/entities/atividade/atividade.entity';
 import AtividadeExtensaoRepository from 'infra/repository/atividade.repository.imp';
 import UnsubscribeActivityUC from './usecase/desinscrever-atividade.usecase';
 import CreateProjetoUC from './usecase/create-projeto.usecase';
-import AlunoProjetoExtensao from 'common/aggregate/aluno-projeto/aluno.projeto.aggregate';
+import AlunoProjetoExtensao from 'common/aggregate/aluno-projeto/aluno-projeto.aggregate';
 import AlunoProjetoRepository from 'infra/repository/aluno-projeto.repository.imp';
 import UpdateProjetoUC from './usecase/update-projeto.usecase';
 import GetProjetosUC from './usecase/get-projetos.usecase';

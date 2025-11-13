@@ -7,10 +7,12 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export default class UserRepository implements IUserRepository {
+
   constructor(
     @InjectRepository(Pessoa)
     private readonly repository: Repository<Pessoa>,
   ) {}
+
   async create(input: UserCreateRequestDTO): Promise<Pessoa> {
     const newPessoa: Partial<Pessoa> = {
       email: input.email,
@@ -18,7 +20,10 @@ export default class UserRepository implements IUserRepository {
       cpf: input.cpf,
       nome: input.nome,
     };
-    return await this.repository.save(newPessoa);
+
+    const createdPessoa = this.repository.create(newPessoa);
+
+    return await this.repository.save(createdPessoa);
   }
 
   async getById(id: number): Promise<Pessoa | null> {
