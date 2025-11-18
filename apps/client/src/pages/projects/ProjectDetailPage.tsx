@@ -30,10 +30,10 @@ export default function ActivityDetailPage() {
   if (!activity) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center text-center">
-        <p className="text-xl text-gray-600">
+        <p className="text-xl text-gray-600 mb-4">
           Atividade não encontrada...
         </p>
-        <Button className="cursor-pointer" onClick={() => navigate("/activities")}>Voltar</Button>
+        <Button onClick={() => navigate("/activities")}>Voltar</Button>
       </div>
     );
   }

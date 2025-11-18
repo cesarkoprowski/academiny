@@ -39,7 +39,7 @@ export function DashboardNav() {
                 asChild
                 className="text-gray-700"
               >
-                <a href="/dashboard">
+                <a href="/atividades">
                   <Home className="w-4 h-4 mr-2" />
                   Início
                 </a>
@@ -52,7 +52,7 @@ export function DashboardNav() {
               >
                 <a href="/projetos">
                   <FolderOpen className="w-4 h-4 mr-2" />
-                  Meus Projetos
+                  Projetos
                 </a>
               </Button>
             </div>
@@ -102,7 +102,7 @@ export function DashboardNav() {
                 <DropdownMenuItem asChild>
                   <a href="/projetos">
                     <FolderOpen className="mr-2 h-4 w-4" />
-                    Meus Projetos
+                    Projetos
                   </a>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />

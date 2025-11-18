@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
-const activities = [
+const projects = [
   {
     id: 1,
     title: "Inclusão digital de idosos",
@@ -34,11 +34,10 @@ export default function ActivitiesPage() {
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-3xl font-bold text-[#1e3a5f] mb-2">
-              Atividades
+              Projetos
             </h1>
             <p className="text-gray-600">
-              Encontre as atividades de extensão disponibilizadas pela sua
-              faculdade
+              Visualize os projetos de extensão que você esta envolvido
             </p>
           </div>
         </div>
@@ -55,10 +54,10 @@ export default function ActivitiesPage() {
         </div>
 
         <div className="space-y-4">
-          {activities.map((activity) => (
+          {projects.map((project) => (
             <Card
-              key={activity.id}
-              onClick={() => navigate(`/atividades/${activity.id}`)}
+              key={project.id}
+              onClick={() => navigate(`/atividades/${project.id}`)}
               className="hover:shadow-md transition-shadow cursor-pointer"
             >
               <CardHeader>
@@ -68,40 +67,40 @@ export default function ActivitiesPage() {
                       <Badge
                         variant="outline"
                         className={
-                          activity.type === "Empresa"
+                          project.type === "Empresa"
                             ? "border-[#7dd3c0] text-[#7dd3c0]"
                             : "border-[#e89b3c] text-[#e89b3c]"
                         }
                       >
-                        {activity.type}
+                        {project.type}
                       </Badge>
-                      <Badge variant="secondary">{activity.category}</Badge>
+                      <Badge variant="secondary">{project.category}</Badge>
                     </div>
                     <CardTitle className="text-xl mb-2">
                       <a
-                        href={`/atividades/${activity.id}`}
+                        href={`/projetos/${project.id}`}
                         className="hover:text-[#7dd3c0] transition-colors"
                       >
-                        {activity.title}
+                        {project.title}
                       </a>
                     </CardTitle>
                     <CardDescription className="text-sm mb-3">
-                      {activity.organization}
+                      {project.organization}
                     </CardDescription>
                     <p className="text-gray-700 leading-relaxed mb-4">
-                      {activity.description}
+                      {project.description}
                     </p>
 
                     <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
                       <span className="flex items-center gap-1">
                         <Clock className="w-4 h-4" />
-                        Carga: {activity.deadline}
+                        Carga: {project.deadline}
                       </span>
                       <span className="flex items-center gap-1">
                         <Users className="w-4 h-4" />
-                        {activity.applicants} candidatos
+                        {project.applicants} candidatos
                       </span>
-                      <span className="text-gray-500">{activity.postedAt}</span>
+                      <span className="text-gray-500">{project.postedAt}</span>
                     </div>
                   </div>
                 </div>
