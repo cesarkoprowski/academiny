@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from 'next/navigation'
 import { ArrowLeft, Plus, X } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -9,11 +10,33 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { AlertCircle, CheckCircle2 } from 'lucide-react'
+import { createActivity } from "@/lib/api"
+import { useAuth } from "@/lib/auth"
 import Link from "next/link"
 
 export default function NewActivityPage() {
   const [learningObjectives, setLearningObjectives] = useState<string[]>([])
   const [currentObjective, setCurrentObjective] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState("")
+  const [success, setSuccess] = useState(false)
+  
+  const [formData, setFormData] = useState({
+    titulo: "",
+    descricao: "",
+    cargaHoraria: "",
+    category: "",
+    capacity: "",
+    status: "ativa",
+    about: "",
+    coordinator: "",
+    email: "",
+  })
+  
+  const { token } = useAuth()
+  const router = useRouter()
 
   const addObjective = () => {
     if (currentObjective.trim()) {
@@ -24,6 +47,42 @@ export default function NewActivityPage() {
 
   const removeObjective = (index: number) => {
     setLearningObjectives(learningObjectives.filter((_, i) => i !== index))
+  }
+
+  const handleChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }))
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    if (!token) {
+      setError("Você precisa estar logado como coordenador para criar atividades")
+      return
+    }
+    
+    setIsLoading(true)
+    setError("")
+    
+    try {
+      await createActivity({
+        titulo: formData.titulo,
+        descricao: formData.descricao,
+        cargaHoraria: parseInt(formData.cargaHoraria),
+      }, token)
+      
+      console.log("[v0] Activity created successfully")
+      setSuccess(true)
+      
+      setTimeout(() => {
+        router.push('/admin')
+      }, 2000)
+    } catch (err) {
+      console.error("[v0] Error creating activity:", err)
+      setError("Erro ao criar atividade. Verifique suas permissões e tente novamente.")
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -66,7 +125,23 @@ export default function NewActivityPage() {
             </p>
           </div>
 
-          <form className="space-y-6">
+          {error && (
+            <Alert variant="destructive" className="mb-6">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
+          
+          {success && (
+            <Alert className="mb-6">
+              <CheckCircle2 className="h-4 w-4" />
+              <AlertDescription>
+                Atividade criada com sucesso! Redirecionando...
+              </AlertDescription>
+            </Alert>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-6">
             {/* Basic Information */}
             <Card>
               <CardHeader>
@@ -81,7 +156,10 @@ export default function NewActivityPage() {
                   <Input 
                     id="title"
                     placeholder="Ex: Projeto de Extensão em Tecnologia Social"
+                    value={formData.titulo}
+                    onChange={(e) => handleChange('titulo', e.target.value)}
                     required
+                    disabled={isLoading || success}
                   />
                 </div>
 
@@ -91,14 +169,21 @@ export default function NewActivityPage() {
                     id="description"
                     placeholder="Descreva a atividade de forma clara e objetiva..."
                     rows={4}
+                    value={formData.descricao}
+                    onChange={(e) => handleChange('descricao', e.target.value)}
                     required
+                    disabled={isLoading || success}
                   />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="category">Categoria *</Label>
-                    <Select>
+                    <Select 
+                      value={formData.category}
+                      onValueChange={(value) => handleChange('category', value)}
+                      disabled={isLoading || success}
+                    >
                       <SelectTrigger id="category">
                         <SelectValue placeholder="Selecione" />
                       </SelectTrigger>
@@ -119,7 +204,10 @@ export default function NewActivityPage() {
                       type="number"
                       placeholder="40"
                       min="1"
+                      value={formData.cargaHoraria}
+                      onChange={(e) => handleChange('cargaHoraria', e.target.value)}
                       required
+                      disabled={isLoading || success}
                     />
                   </div>
                 </div>
@@ -132,13 +220,20 @@ export default function NewActivityPage() {
                       type="number"
                       placeholder="20"
                       min="1"
+                      value={formData.capacity}
+                      onChange={(e) => handleChange('capacity', e.target.value)}
                       required
+                      disabled={isLoading || success}
                     />
                   </div>
 
                   <div className="space-y-2">
                     <Label htmlFor="status">Status *</Label>
-                    <Select defaultValue="ativa">
+                    <Select 
+                      value={formData.status}
+                      onValueChange={(value) => handleChange('status', value)}
+                      disabled={isLoading || success}
+                    >
                       <SelectTrigger id="status">
                         <SelectValue />
                       </SelectTrigger>
@@ -168,6 +263,9 @@ export default function NewActivityPage() {
                     id="about"
                     placeholder="Informações adicionais sobre a atividade, contexto, metodologia..."
                     rows={5}
+                    value={formData.about}
+                    onChange={(e) => handleChange('about', e.target.value)}
+                    disabled={isLoading || success}
                   />
                 </div>
 
@@ -184,8 +282,9 @@ export default function NewActivityPage() {
                           addObjective()
                         }
                       }}
+                      disabled={isLoading || success}
                     />
-                    <Button type="button" onClick={addObjective}>
+                    <Button type="button" onClick={addObjective} disabled={isLoading || success}>
                       <Plus className="h-4 w-4" />
                     </Button>
                   </div>
@@ -199,6 +298,7 @@ export default function NewActivityPage() {
                             variant="ghost"
                             size="sm"
                             onClick={() => removeObjective(index)}
+                            disabled={isLoading || success}
                           >
                             <X className="h-4 w-4" />
                           </Button>
@@ -224,7 +324,10 @@ export default function NewActivityPage() {
                   <Input 
                     id="coordinator"
                     placeholder="Prof. Dr. João Silva"
+                    value={formData.coordinator}
+                    onChange={(e) => handleChange('coordinator', e.target.value)}
                     required
+                    disabled={isLoading || success}
                   />
                 </div>
 
@@ -234,7 +337,10 @@ export default function NewActivityPage() {
                     id="email"
                     type="email"
                     placeholder="coordenador@universidade.edu.br"
+                    value={formData.email}
+                    onChange={(e) => handleChange('email', e.target.value)}
                     required
+                    disabled={isLoading || success}
                   />
                 </div>
               </CardContent>
@@ -242,11 +348,11 @@ export default function NewActivityPage() {
 
             {/* Actions */}
             <div className="flex gap-3 pt-4">
-              <Button type="button" variant="outline" className="flex-1" asChild>
+              <Button type="button" variant="outline" className="flex-1" asChild disabled={isLoading || success}>
                 <Link href="/admin">Cancelar</Link>
               </Button>
-              <Button type="submit" className="flex-1">
-                Cadastrar Atividade
+              <Button type="submit" className="flex-1" disabled={isLoading || success}>
+                {isLoading ? 'Cadastrando...' : 'Cadastrar Atividade'}
               </Button>
             </div>
           </form>

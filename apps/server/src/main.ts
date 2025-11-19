@@ -8,6 +8,8 @@ async function bootstrap() {
 
   if (!process.env.JWT_SECRET) throw new Error('JWT_SECRET NOT FOUND');
 
+  app.enableCors();
+
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,

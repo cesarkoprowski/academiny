@@ -71,27 +71,6 @@ const activities = [
 export default function AdminPage() {
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b bg-card">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-8">
-              <Link href="/" className="flex items-center gap-2">
-                <div className="h-8 w-8 rounded-lg bg-primary" />
-                <span className="text-xl font-bold">Academiny</span>
-              </Link>
-              <Badge variant="secondary">Painel Administrativo</Badge>
-            </div>
-            <div className="flex items-center gap-3">
-              <Button variant="outline" size="sm" asChild>
-                <Link href="/">Ver como Aluno</Link>
-              </Button>
-              <div className="h-8 w-8 rounded-full bg-primary" />
-            </div>
-          </div>
-        </div>
-      </header>
-
       {/* Content */}
       <div className="container mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-8">

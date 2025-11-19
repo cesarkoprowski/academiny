@@ -1,12 +1,16 @@
 "use client"
 
 import { useState } from "react"
-import { Upload, LinkIcon, X, FileText } from 'lucide-react'
+import { Upload, LinkIcon, FileText } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { AlertCircle } from 'lucide-react'
+import { createProject } from "@/lib/api"
+import { useAuth } from "@/lib/auth"
 
 interface DocumentUploadProps {
   activityId: number
@@ -17,12 +21,39 @@ export function DocumentUpload({ activityId, activityTitle }: DocumentUploadProp
   const [documentLink, setDocumentLink] = useState("")
   const [notes, setNotes] = useState("")
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState("")
+  
+  const { token } = useAuth()
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Here you would normally send the data to your backend
-    console.log("Submitting:", { activityId, documentLink, notes })
-    setIsSubmitted(true)
+    
+    if (!token) {
+      setError("Você precisa estar logado para enviar comprovações")
+      return
+    }
+    
+    setIsLoading(true)
+    setError("")
+    
+    try {
+      await createProject({
+        nome: activityTitle,
+        atividadeExtensaoId: activityId,
+        professorAvaliadorId: 1, // This should come from the activity data
+        resumo: notes || "Comprovação de atividade",
+        urlAnexo: documentLink,
+      }, token)
+      
+      console.log("[v0] Project created successfully")
+      setIsSubmitted(true)
+    } catch (err) {
+      console.error("[v0] Error submitting project:", err)
+      setError("Erro ao enviar comprovação. Tente novamente.")
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   if (isSubmitted) {
@@ -77,6 +108,13 @@ export function DocumentUpload({ activityId, activityTitle }: DocumentUploadProp
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
+          {error && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
+          
           <div className="space-y-2">
             <Label htmlFor="activity">Atividade</Label>
             <Input 
@@ -99,6 +137,7 @@ export function DocumentUpload({ activityId, activityTitle }: DocumentUploadProp
                 onChange={(e) => setDocumentLink(e.target.value)}
                 className="pl-9"
                 required
+                disabled={isLoading}
               />
             </div>
             <p className="text-xs text-muted-foreground">
@@ -114,6 +153,7 @@ export function DocumentUpload({ activityId, activityTitle }: DocumentUploadProp
               rows={4}
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
+              disabled={isLoading}
             />
           </div>
 
@@ -127,9 +167,9 @@ export function DocumentUpload({ activityId, activityTitle }: DocumentUploadProp
             </ul>
           </div>
 
-          <Button type="submit" size="lg" className="w-full" disabled={!documentLink}>
+          <Button type="submit" size="lg" className="w-full" disabled={!documentLink || isLoading}>
             <Upload className="h-4 w-4 mr-2" />
-            Enviar Comprovação
+            {isLoading ? 'Enviando...' : 'Enviar Comprovação'}
           </Button>
         </form>
       </CardContent>

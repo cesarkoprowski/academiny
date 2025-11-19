@@ -1,13 +1,15 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { AuthProvider } from '@/lib/auth'
+import { LayoutWrapper } from '@/components/layout-wrapper'
 import './globals.css'
 
 const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Academiny - Plataforma de Extensão Universitária',
+  title: 'Academiny',
   description: 'Compartilhe conhecimento e transforme vidas através de projetos de extensão acadêmica',
   generator: 'v0.app',
   icons: {
@@ -37,7 +39,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans antialiased`}>
-        {children}
+        <AuthProvider>
+          <LayoutWrapper>
+            {children}
+          </LayoutWrapper>
+        </AuthProvider>
         <Analytics />
       </body>
     </html>

@@ -1,4 +1,4 @@
-import { Calendar, Clock, CheckCircle2, FileText, Bell } from 'lucide-react'
+import { Calendar, Clock, CheckCircle2, FileText } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -34,40 +34,6 @@ const completedActivities = [
 export default function HistoryPage() {
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b bg-card">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-8">
-              <Link href="/" className="flex items-center gap-2">
-                <div className="h-8 w-8 rounded-lg bg-primary" />
-                <span className="text-xl font-bold">Academiny</span>
-              </Link>
-              <nav className="hidden md:flex items-center gap-6">
-                <Link href="/" className="text-sm font-medium text-muted-foreground hover:text-foreground">
-                  Atividades
-                </Link>
-                <Link href="/progress" className="text-sm font-medium text-muted-foreground hover:text-foreground">
-                  Meu Progresso
-                </Link>
-                <Link href="/history" className="text-sm font-medium text-foreground hover:text-primary">
-                  Histórico
-                </Link>
-              </nav>
-            </div>
-            <div className="flex items-center gap-3">
-              <Button variant="ghost" size="icon">
-                <Bell className="h-5 w-5" />
-              </Button>
-              <Button variant="outline" size="sm">
-                Admin
-              </Button>
-              <div className="h-8 w-8 rounded-full bg-primary" />
-            </div>
-          </div>
-        </div>
-      </header>
-
       {/* Content */}
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">

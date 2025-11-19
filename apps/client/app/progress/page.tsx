@@ -1,9 +1,14 @@
+'use client'
+
+import { useEffect, useState } from 'react'
 import { Clock, CheckCircle2, AlertCircle, FileText, Bell } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useAuth } from "@/lib/auth"
+import { getStudentInfo } from "@/lib/api"
 import Link from "next/link"
 
 const enrolledActivities = [
@@ -43,53 +48,69 @@ const notifications = [
 ]
 
 export default function ProgressPage() {
+  const { token, user, isAuthenticated } = useAuth()
+  const [studentData, setStudentData] = useState<any>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  
+  useEffect(() => {
+    const fetchStudentData = async () => {
+      if (!token || !isAuthenticated) {
+        setIsLoading(false)
+        return
+      }
+      
+      try {
+        const data = await getStudentInfo(token)
+        console.log("[v0] Student data fetched:", data)
+        setStudentData(data)
+      } catch (error) {
+        console.error("[v0] Error fetching student data:", error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    
+    fetchStudentData()
+  }, [token, isAuthenticated])
+  
   const totalRequired = 200
   const totalCompleted = 85
   const progressPercentage = (totalCompleted / totalRequired) * 100
 
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Card className="max-w-md">
+          <CardHeader>
+            <CardTitle>Acesso Restrito</CardTitle>
+            <CardDescription>
+              Você precisa estar logado para ver seu progresso
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button asChild className="w-full">
+              <Link href="/login">Fazer Login</Link>
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b bg-card">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-8">
-              <Link href="/" className="flex items-center gap-2">
-                <div className="h-8 w-8 rounded-lg bg-primary" />
-                <span className="text-xl font-bold">Academiny</span>
-              </Link>
-              <nav className="hidden md:flex items-center gap-6">
-                <Link href="/" className="text-sm font-medium text-muted-foreground hover:text-foreground">
-                  Atividades
-                </Link>
-                <Link href="/progress" className="text-sm font-medium text-foreground hover:text-primary">
-                  Meu Progresso
-                </Link>
-                <Link href="/history" className="text-sm font-medium text-muted-foreground hover:text-foreground">
-                  Histórico
-                </Link>
-              </nav>
-            </div>
-            <div className="flex items-center gap-3">
-              <Button variant="ghost" size="icon">
-                <Bell className="h-5 w-5" />
-              </Button>
-              <Button variant="outline" size="sm">
-                Admin
-              </Button>
-              <div className="h-8 w-8 rounded-full bg-primary" />
-            </div>
-          </div>
-        </div>
-      </header>
-
       {/* Content */}
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Meu Progresso</h1>
+          <h1 className="text-3xl font-bold mb-2">Meus Projetos</h1>
           <p className="text-muted-foreground">
             Acompanhe suas atividades de extensão e horas cumpridas
           </p>
+          {studentData && (
+            <div className="mt-2 text-sm text-muted-foreground">
+              Matrícula: {studentData.matricula} | CPF: {studentData.cpf}
+            </div>
+          )}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -219,7 +240,7 @@ export default function ProgressPage() {
                           </CardHeader>
                           <CardContent>
                             <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
-                              <AlertCircle className="h-4 w-4" />
+                              <AlertCircle className="h-5 w-5 text-chart-4 shrink-0 mt-0.5" />
                               <span>Aguardando análise do professor</span>
                             </div>
                             <Button variant="outline" size="sm" asChild>
