@@ -28,8 +28,34 @@ export default class DisciplinaRepository implements IDisciplinaRepository {
 
   async getAll(): Promise<Disciplina[]> {
     return await this.disciplinaRepository.find({
-      order: { nome: 'ASC' },
+      order: { id: 'DESC' },
     });
+  }
+
+  async getAllWithProfessores(): Promise<any[]> {
+    const query = `
+      SELECT 
+        d.id as "disciplinaId",
+        d.nome as "disciplinaNome",
+        d.carga_horaria_extensao as "cargaHoraria",
+        d.codigo as "codigo",
+        json_agg(
+          json_build_object(
+            'professorId', prof.id,
+            'nome', p.nome,
+            'email', p.email,
+            'codigoCps', prof.codigo_cps
+          )
+        ) FILTER (WHERE prof.id IS NOT NULL) as professores
+      FROM disciplina d
+      LEFT JOIN professor_disciplina pd ON d.id = pd.disciplina_id
+      LEFT JOIN professor prof ON pd.professor_id = prof.id
+      LEFT JOIN pessoa p ON prof.pessoa_id = p.id
+      GROUP BY d.id, d.nome, d.carga_horaria_extensao, d.codigo
+      ORDER BY d.id DESC
+    `;
+
+    return await this.disciplinaRepository.query(query);
   }
 
   async update(

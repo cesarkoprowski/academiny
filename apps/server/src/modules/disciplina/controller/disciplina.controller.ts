@@ -28,6 +28,11 @@ import GetAllDisciplinaUC from '../usecase/get-all-disciplina.usecase';
 import GetDisciplinaByIdUC from '../usecase/get-disciplina-by-id.usecase';
 import AuthGuardCoordinator from 'common/security/auth/entity/auth.coordinator.guard';
 import { Public } from 'common/decorators/public.decorator';
+import AddProfessorToDisciplinaUC from '../usecase/add-professor-disciplina.usecase';
+import AddProfessorToDisciplinaRequestDto from '../dto/request/add-professor-disciplina.request.dto';
+import MessageResponseDto from 'modules/user/dto/response/message.response.dto';
+import RemoveProfessorFromDisciplinaUC from '../usecase/remove-professor-disciplina.usecase';
+import RemoveProfessorFromDisciplinaRequestDto from '../dto/request/remove-professor-disciplina.request.dto';
 
 @ApiTags('disciplina')
 @Controller('disciplina')
@@ -43,6 +48,10 @@ export default class DisciplinaController {
     private readonly getAllDisciplinaUC: GetAllDisciplinaUC,
     @Inject(GetDisciplinaByIdUC)
     private readonly getDisciplinaByIdUC: GetDisciplinaByIdUC,
+    @Inject(AddProfessorToDisciplinaUC)
+    private readonly addProfessorToDisciplinaUC: AddProfessorToDisciplinaUC,
+    @Inject(RemoveProfessorFromDisciplinaUC)
+    private readonly removeProfessorFromDisciplinaUC: RemoveProfessorFromDisciplinaUC,
   ) {}
 
   @Public()
@@ -131,5 +140,51 @@ export default class DisciplinaController {
   })
   async deleteDisciplina(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return await this.disciplinaDeleteUC.execute(id);
+  }
+
+  @Post('add-professor')
+  @UseGuards(AuthGuardCoordinator)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({
+    summary: '[Coordenador Apenas] Adicionar professor a uma disciplina',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Professor adicionado à disciplina com sucesso',
+    type: MessageResponseDto,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Professor ou disciplina não encontrado',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Professor já está associado a esta disciplina',
+  })
+  async addProfessorToDisciplina(
+    @Body() input: AddProfessorToDisciplinaRequestDto,
+  ): Promise<MessageResponseDto> {
+    return await this.addProfessorToDisciplinaUC.execute(input);
+  }
+
+  @Post('remove-professor')
+  @UseGuards(AuthGuardCoordinator)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({
+    summary: '[Coordenador Apenas] Remover professor de uma disciplina',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Professor removido da disciplina com sucesso',
+    type: MessageResponseDto,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Professor não está associado a esta disciplina',
+  })
+  async removeProfessorFromDisciplina(
+    @Body() input: RemoveProfessorFromDisciplinaRequestDto,
+  ): Promise<MessageResponseDto> {
+    return await this.removeProfessorFromDisciplinaUC.execute(input);
   }
 }
