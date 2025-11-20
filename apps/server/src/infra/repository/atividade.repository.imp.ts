@@ -30,7 +30,6 @@ export default class AtividadeExtensaoRepository
 
   async getAll(): Promise<AtividadeExtensao[]> {
     return await this.repository.find({
-      relations: ['disciplinaAtividades', 'disciplinaAtividades.disciplina'],
       order: { id: 'DESC' },
     });
   }
