@@ -20,7 +20,7 @@ export default class TeacherController {
   ) {}
 
   @Post('aluno')
-  @ApiOperation({ summary: 'Criar um novo aluno' })
+  @ApiOperation({ summary: '[Professor Apenas] Criar um novo aluno' })
   @ApiResponse({ status: 201, description: 'Aluno criado com sucesso' })
   async createAluno(@Body() createCoordinator: AlunoCreateRequestDTO) {
     return await this.createAlunoUC.execute(createCoordinator);

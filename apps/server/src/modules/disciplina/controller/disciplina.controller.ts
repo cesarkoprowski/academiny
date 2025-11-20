@@ -21,7 +21,7 @@ export default class DisciplinaController {
   ) {}
 
   @Post()
-  @ApiOperation({ summary: 'Criar uma nova disciplina' })
+  @ApiOperation({ summary: '[Coordenador Apenas] Criar uma nova disciplina' })
   @ApiResponse({
     status: 201,
     description: 'Disciplina criada com sucesso',

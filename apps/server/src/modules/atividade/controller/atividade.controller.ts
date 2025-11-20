@@ -21,7 +21,9 @@ export default class AtividadeExtensaoController {
   ) {}
 
   @Post()
-  @ApiOperation({ summary: 'Criar uma nova atividade de extensão' })
+  @ApiOperation({
+    summary: '[Coordenador Apenas] Criar uma nova atividade de extensão',
+  })
   @ApiResponse({
     status: 201,
     description: 'Atividade criada com sucesso',

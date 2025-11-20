@@ -27,7 +27,7 @@ export default class CursoController {
 
   @Admin()
   @Post()
-  @ApiOperation({ summary: 'Criar um novo curso (Admin apenas)' })
+  @ApiOperation({ summary: '[Admin Apenas] Criar um novo curso' })
   @ApiResponse({
     status: 201,
     description: 'Curso criado com sucesso',
@@ -42,7 +42,9 @@ export default class CursoController {
   @UseGuards(AuthGuardCoordinator)
   @Post('link-discipline')
   @ApiBearerAuth('JWT-auth')
-  @ApiOperation({ summary: 'Vincular uma disciplina a um curso' })
+  @ApiOperation({
+    summary: '[Coordenador Apenas] Vincular uma disciplina a um curso',
+  })
   @ApiResponse({
     status: 201,
     description: 'Disciplina vinculada ao curso com sucesso',

@@ -20,7 +20,7 @@ export default class CoordinatorController {
   ) {}
 
   @Post('teacher')
-  @ApiOperation({ summary: 'Criar um novo professor' })
+  @ApiOperation({ summary: '[Coordenador Apenas] Criar um novo professor' })
   @ApiResponse({ status: 201, description: 'Professor criado com sucesso' })
   async createTeacher(@Body() createTeacher: CreateTeacherRequestDTO) {
     return await this.createTeacherUC.execute(createTeacher);

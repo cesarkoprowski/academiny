@@ -34,7 +34,7 @@ export default class UserController {
 
   @Public()
   @Post('')
-  @ApiOperation({ summary: 'Criar um novo usuário' })
+  @ApiOperation({ summary: '[Público] Criar um novo usuário' })
   @ApiResponse({ status: 201, description: 'Usuário criado com sucesso' })
   async createUser(@Body() user: UserCreateRequestDTO) {
     return this.createUserUC.execute(user);
@@ -42,7 +42,7 @@ export default class UserController {
 
   @Public()
   @Post('login')
-  @ApiOperation({ summary: 'Realizar login no sistema' })
+  @ApiOperation({ summary: '[Público] Realizar login no sistema' })
   @ApiResponse({ status: 200, description: 'Login realizado com sucesso' })
   async loginUser(@Body() user: LoginRequestDTO) {
     return await this.loginUserUC.execute(user);
@@ -51,7 +51,9 @@ export default class UserController {
   @Put('update')
   @HttpCode(204)
   @ApiBearerAuth('JWT-auth')
-  @ApiOperation({ summary: 'Atualizar dados do usuário autenticado' })
+  @ApiOperation({
+    summary: '[Autenticado] Atualizar dados do usuário autenticado',
+  })
   @ApiResponse({ status: 204, description: 'Usuário atualizado com sucesso' })
   async updateMe(
     @Req() request: AuthenticatedRequest,

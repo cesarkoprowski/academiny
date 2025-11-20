@@ -14,7 +14,7 @@ export default class AdminController {
 
   @Admin()
   @Post('coordinator')
-  @ApiOperation({ summary: 'Criar um novo coordenador (Admin apenas)' })
+  @ApiOperation({ summary: '[Admin Apenas] Criar um novo coordenador' })
   @ApiResponse({ status: 201, description: 'Coordenador criado com sucesso' })
   async createCoordinator(
     @Body() createCoordinator: CreateCoordinatorRequestDTO,

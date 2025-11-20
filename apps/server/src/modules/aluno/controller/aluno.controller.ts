@@ -64,7 +64,7 @@ export class AlunoController {
   ) {}
 
   @Get('me')
-  @ApiOperation({ summary: 'Buscar dados do aluno autenticado' })
+  @ApiOperation({ summary: '[Aluno Apenas] Buscar dados do aluno autenticado' })
   @ApiResponse({
     status: 200,
     description: 'Dados do aluno retornados com sucesso',
@@ -85,7 +85,9 @@ export class AlunoController {
   }
 
   @Post('atividade/inscrever')
-  @ApiOperation({ summary: 'Inscrever aluno em uma atividade de extensão' })
+  @ApiOperation({
+    summary: '[Aluno Apenas] Inscrever aluno em uma atividade de extensão',
+  })
   @ApiResponse({
     status: 201,
     description: 'Aluno inscrito na atividade com sucesso',
@@ -104,7 +106,9 @@ export class AlunoController {
   }
 
   @Post('atividade/desinscrever')
-  @ApiOperation({ summary: 'Desinscrever aluno de uma atividade de extensão' })
+  @ApiOperation({
+    summary: '[Aluno Apenas] Desinscrever aluno de uma atividade de extensão',
+  })
   @ApiResponse({
     status: 201,
     description: 'Aluno desinscrito da atividade com sucesso',
@@ -123,7 +127,7 @@ export class AlunoController {
   }
 
   @Post('projeto')
-  @ApiOperation({ summary: 'Criar um novo projeto de extensão' })
+  @ApiOperation({ summary: '[Aluno Apenas] Criar um novo projeto de extensão' })
   @ApiResponse({
     status: 201,
     description: 'Projeto criado com sucesso',
@@ -139,7 +143,9 @@ export class AlunoController {
   }
 
   @Patch('projeto')
-  @ApiOperation({ summary: 'Atualizar um projeto de extensão existente' })
+  @ApiOperation({
+    summary: '[Aluno Apenas] Atualizar um projeto de extensão existente',
+  })
   @ApiResponse({
     status: 200,
     description: 'Projeto atualizado com sucesso',
@@ -155,7 +161,9 @@ export class AlunoController {
   }
 
   @Get('projeto')
-  @ApiOperation({ summary: 'Listar todos os projetos do aluno autenticado' })
+  @ApiOperation({
+    summary: '[Aluno Apenas] Listar todos os projetos do aluno autenticado',
+  })
   @ApiResponse({
     status: 200,
     description: 'Lista de projetos retornada com sucesso',
@@ -171,7 +179,8 @@ export class AlunoController {
 
   @Get('atividade')
   @ApiOperation({
-    summary: 'Listar todas as atividades em que o aluno está inscrito',
+    summary:
+      '[Aluno Apenas] Listar todas as atividades em que o aluno está inscrito',
   })
   @ApiResponse({
     status: 200,
