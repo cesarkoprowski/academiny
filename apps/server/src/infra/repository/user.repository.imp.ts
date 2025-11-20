@@ -7,7 +7,6 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export default class UserRepository implements IUserRepository {
-
   constructor(
     @InjectRepository(Pessoa)
     private readonly repository: Repository<Pessoa>,
