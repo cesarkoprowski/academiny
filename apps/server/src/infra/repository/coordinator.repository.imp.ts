@@ -73,4 +73,11 @@ export default class CoordinatorRepository implements ICoordinatorRepository {
       relations: ['professor', 'professor.pessoa'],
     });
   }
+
+  async getByIdWithRelations(id: number): Promise<Coordenador | null> {
+    return await this.repository.findOne({
+      where: { id },
+      relations: ['professor', 'professor.pessoa'],
+    });
+  }
 }

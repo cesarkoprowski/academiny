@@ -8,11 +8,13 @@ import CoordinatorController from './controller/coordinator.controller';
 import Coordenador from 'common/entities/coordenador/coordenador.entity';
 import UserRepository from 'infra/repository/user.repository.imp';
 import CoordinatorRepository from 'infra/repository/coordinator.repository.imp';
+import DeleteProfessorUC from 'modules/professor/usecase/delete-professor.usecase';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Pessoa, Professor, Coordenador])],
   providers: [
     CreateTeacherUC,
+    DeleteProfessorUC,
     ProfessorRepository,
     UserRepository,
     CoordinatorRepository,
