@@ -1,4 +1,4 @@
-import { Body, Controller, Inject, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post, UseGuards } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -7,8 +7,11 @@ import {
 } from '@nestjs/swagger';
 import CursoRequestCreateDto from '../dto/request/curso-create.request.dto';
 import CursoResponseCreateDto from '../dto/response/curso-create.response.dto';
+import GetAllCursosResponseDto from '../dto/response/get-all-cursos.response.dto';
 import CreateCursoUC from '../usecase/create-curso.usecase';
+import GetAllCursosUC from '../usecase/get-all-cursos.usecase';
 import { Admin } from 'common/decorators/public.decorator';
+import { Public } from 'common/decorators/public.decorator';
 import AuthGuardCoordinator from 'common/security/auth/entity/auth.coordinator.guard';
 import CreateLinkDisciplineRequestDTO from '../dto/request/create-link-discipline.request.dto';
 import CreateLinkDisciplineUC from '../usecase/create-link-discipline.usecase';
@@ -23,7 +26,22 @@ export default class CursoController {
 
     @Inject(CreateLinkDisciplineUC)
     private readonly linkDisciplineUC: CreateLinkDisciplineUC,
+
+    @Inject(GetAllCursosUC)
+    private readonly getAllCursosUC: GetAllCursosUC,
   ) {}
+
+  @Public()
+  @Get()
+  @ApiOperation({ summary: '[Público] Buscar todos os cursos' })
+  @ApiResponse({
+    status: 200,
+    description: 'Lista de cursos retornada com sucesso',
+    type: [GetAllCursosResponseDto],
+  })
+  async getAllCursos(): Promise<GetAllCursosResponseDto[]> {
+    return await this.getAllCursosUC.execute();
+  }
 
   @Admin()
   @Post()

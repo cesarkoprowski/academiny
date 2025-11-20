@@ -1,11 +1,15 @@
 import { Module } from '@nestjs/common';
 import { AlunoController } from './controller/aluno.controller';
+import AlunosProfessorController from './controller/alunos-professor.controller';
 import AlunoRepository from 'infra/repository/aluno.repository.imp';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import Pessoa from 'common/entities/pessoa/pessoa.entity';
 import Aluno from 'common/entities/aluno/aluno.entity';
+import Professor from 'common/entities/professor/professor.entity';
 import CreateAlunoUC from 'modules/professor/usecase/create-aluno.use.case';
+import GetAllAlunosUC from './usecase/get-all-alunos.usecase';
 import UserRepository from 'infra/repository/user.repository.imp';
+import ProfessorRepository from 'infra/repository/professor.repository.imp';
 import ProjetoExtensao from 'common/entities/projeto/projeto.entity';
 import ProjetoExtensaoRepository from 'infra/repository/projeto.repository.imp';
 import SubscribeActivityUC from './usecase/assinar-atividade.usescase';
@@ -26,16 +30,19 @@ import GetAllAtividadesUC from './usecase/get-all-atividades.usecase';
     TypeOrmModule.forFeature([
       Pessoa,
       Aluno,
+      Professor,
       ProjetoExtensao,
       AlunoAtividadeExtensao,
       AtividadeExtensao,
       AlunoProjetoExtensao,
     ]),
   ],
-  controllers: [AlunoController],
+  controllers: [AlunoController, AlunosProfessorController],
   providers: [
     AlunoRepository,
+    ProfessorRepository,
     CreateAlunoUC,
+    GetAllAlunosUC,
     UserRepository,
     ProjetoExtensaoRepository,
     SubscribeActivityUC,

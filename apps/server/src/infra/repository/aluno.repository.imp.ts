@@ -74,4 +74,11 @@ export default class AlunoRepository implements IAlunoRepository {
       order: { matricula: 'ASC' },
     });
   }
+
+  async findAllWithDetails(): Promise<Aluno[]> {
+    return await this.repository.find({
+      relations: ['pessoa'],
+      order: { id: 'DESC' },
+    });
+  }
 }
