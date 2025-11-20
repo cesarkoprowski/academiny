@@ -8,6 +8,9 @@ import Aluno from 'common/entities/aluno/aluno.entity';
 import Professor from 'common/entities/professor/professor.entity';
 import CreateAlunoUC from 'modules/professor/usecase/create-aluno.use.case';
 import GetAllAlunosUC from './usecase/get-all-alunos.usecase';
+import GetAlunoByIdUC from './usecase/get-aluno-by-id.usecase';
+import UpdateAlunoUC from './usecase/update-aluno.usecase';
+import DeleteAlunoUC from './usecase/delete-aluno.usecase';
 import UserRepository from 'infra/repository/user.repository.imp';
 import ProfessorRepository from 'infra/repository/professor.repository.imp';
 import ProjetoExtensao from 'common/entities/projeto/projeto.entity';
@@ -43,6 +46,9 @@ import GetAllAtividadesUC from './usecase/get-all-atividades.usecase';
     ProfessorRepository,
     CreateAlunoUC,
     GetAllAlunosUC,
+    GetAlunoByIdUC,
+    UpdateAlunoUC,
+    DeleteAlunoUC,
     UserRepository,
     ProjetoExtensaoRepository,
     SubscribeActivityUC,

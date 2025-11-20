@@ -24,7 +24,17 @@ export default class ProfessorRepository implements IProfessorRepository {
   }
 
   async getById(id: number): Promise<Professor | null> {
-    return await this.repository.findOneBy({ id });
+    return await this.repository.findOne({
+      where: { pessoa: { id } },
+      relations: ['pessoa'],
+    });
+  }
+
+  async getByProfessorId(id: number): Promise<Professor | null> {
+    return await this.repository.findOne({
+      where: { id },
+      relations: ['pessoa'],
+    });
   }
 
   async getAll(): Promise<Professor[]> {

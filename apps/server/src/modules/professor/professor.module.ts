@@ -9,6 +9,8 @@ import ProfessorRepository from 'infra/repository/professor.repository.imp';
 import CoordinatorRepository from 'infra/repository/coordinator.repository.imp';
 import CreateAlunoUC from './usecase/create-aluno.use.case';
 import GetAllProfessorsUC from './usecase/get-all-professors.usecase';
+import GetProfessorByIdUC from './usecase/get-professor-by-id.usecase';
+import UpdateProfessorUC from './usecase/update-professor.usecase';
 import UserRepository from 'infra/repository/user.repository.imp';
 import AlunoRepository from 'infra/repository/aluno.repository.imp';
 import Pessoa from 'common/entities/pessoa/pessoa.entity';
@@ -24,6 +26,8 @@ import Aluno from 'common/entities/aluno/aluno.entity';
     CoordinatorRepository,
     CreateAlunoUC,
     GetAllProfessorsUC,
+    GetProfessorByIdUC,
+    UpdateProfessorUC,
     UserRepository,
     AlunoRepository,
   ],

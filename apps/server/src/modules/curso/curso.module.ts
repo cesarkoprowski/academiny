@@ -2,6 +2,9 @@ import { Module } from '@nestjs/common';
 import CursoController from './controller/curso.controller';
 import CreateCursoUC from './usecase/create-curso.usecase';
 import GetAllCursosUC from './usecase/get-all-cursos.usecase';
+import GetCursoByIdUC from './usecase/get-curso-by-id.usecase';
+import UpdateCursoUC from './usecase/update-curso.usecase';
+import DeleteCursoUC from './usecase/delete-curso.usecase';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import Curso from 'common/entities/curso/curso.entity';
 import CursoRepository from 'infra/repository/curso.repository.imp';
@@ -22,6 +25,9 @@ import CursoDisciplina from 'common/aggregate/curso-disciplina/curso-disciplina.
   providers: [
     CreateCursoUC,
     GetAllCursosUC,
+    GetCursoByIdUC,
+    UpdateCursoUC,
+    DeleteCursoUC,
     CursoRepository,
     CoordinatorRepository,
     CreateLinkDisciplineUC,

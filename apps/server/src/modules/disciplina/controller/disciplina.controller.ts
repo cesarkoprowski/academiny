@@ -27,12 +27,19 @@ import DisciplinaDeleteUC from '../usecase/disciplina-delete.usecase';
 import GetAllDisciplinaUC from '../usecase/get-all-disciplina.usecase';
 import GetDisciplinaByIdUC from '../usecase/get-disciplina-by-id.usecase';
 import AuthGuardCoordinator from 'common/security/auth/entity/auth.coordinator.guard';
+import AuthGuardAluno from 'common/security/auth/entity/auth.aluno.guard';
 import { Public } from 'common/decorators/public.decorator';
 import AddProfessorToDisciplinaUC from '../usecase/add-professor-disciplina.usecase';
 import AddProfessorToDisciplinaRequestDto from '../dto/request/add-professor-disciplina.request.dto';
 import MessageResponseDto from 'modules/user/dto/response/message.response.dto';
 import RemoveProfessorFromDisciplinaUC from '../usecase/remove-professor-disciplina.usecase';
 import RemoveProfessorFromDisciplinaRequestDto from '../dto/request/remove-professor-disciplina.request.dto';
+import EnrollAlunoDisciplinaUC from '../usecase/enroll-aluno-disciplina.usecase';
+import UnenrollAlunoDisciplinaUC from '../usecase/unenroll-aluno-disciplina.usecase';
+import GetDisciplinasAlunoUC from '../usecase/get-disciplinas-aluno.usecase';
+import EnrollAlunoDisciplinaRequestDto from '../dto/request/enroll-aluno-disciplina.request.dto';
+import UnenrollAlunoDisciplinaRequestDto from '../dto/request/unenroll-aluno-disciplina.request.dto';
+import GetDisciplinasAlunoResponseDto from '../dto/response/get-disciplinas-aluno.response.dto';
 
 @ApiTags('disciplina')
 @Controller('disciplina')
@@ -52,6 +59,12 @@ export default class DisciplinaController {
     private readonly addProfessorToDisciplinaUC: AddProfessorToDisciplinaUC,
     @Inject(RemoveProfessorFromDisciplinaUC)
     private readonly removeProfessorFromDisciplinaUC: RemoveProfessorFromDisciplinaUC,
+    @Inject(EnrollAlunoDisciplinaUC)
+    private readonly enrollAlunoDisciplinaUC: EnrollAlunoDisciplinaUC,
+    @Inject(UnenrollAlunoDisciplinaUC)
+    private readonly unenrollAlunoDisciplinaUC: UnenrollAlunoDisciplinaUC,
+    @Inject(GetDisciplinasAlunoUC)
+    private readonly getDisciplinasAlunoUC: GetDisciplinasAlunoUC,
   ) {}
 
   @Public()
@@ -186,5 +199,71 @@ export default class DisciplinaController {
     @Body() input: RemoveProfessorFromDisciplinaRequestDto,
   ): Promise<MessageResponseDto> {
     return await this.removeProfessorFromDisciplinaUC.execute(input);
+  }
+
+  @Post('matricular')
+  @UseGuards(AuthGuardAluno)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({
+    summary: '[Aluno Apenas] Matricular-se em uma disciplina',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Aluno matriculado na disciplina com sucesso',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Aluno ou disciplina não encontrado',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Aluno já está matriculado nesta disciplina',
+  })
+  async enrollAlunoDisciplina(
+    @Body() input: EnrollAlunoDisciplinaRequestDto,
+  ): Promise<MessageResponseDto> {
+    return await this.enrollAlunoDisciplinaUC.execute(input);
+  }
+
+  @Post('desmatricular')
+  @UseGuards(AuthGuardAluno)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({
+    summary: '[Aluno Apenas] Desmatricular-se de uma disciplina',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Aluno desmatriculado da disciplina com sucesso',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Matrícula não encontrada',
+  })
+  async unenrollAlunoDisciplina(
+    @Body() input: UnenrollAlunoDisciplinaRequestDto,
+  ): Promise<MessageResponseDto> {
+    return await this.unenrollAlunoDisciplinaUC.execute(input);
+  }
+
+  @Get('aluno/:alunoId')
+  @UseGuards(AuthGuardAluno)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({
+    summary: '[Aluno Apenas] Buscar disciplinas de um aluno',
+  })
+  @ApiParam({
+    name: 'alunoId',
+    description: 'ID do aluno',
+    example: 1,
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Disciplinas do aluno retornadas com sucesso',
+    type: [GetDisciplinasAlunoResponseDto],
+  })
+  async getDisciplinasAluno(
+    @Param('alunoId', ParseIntPipe) alunoId: number,
+  ): Promise<GetDisciplinasAlunoResponseDto[]> {
+    return await this.getDisciplinasAlunoUC.execute(alunoId);
   }
 }

@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import CreateTeacherUC from './usecase/create-teacher.usecase';
 import GetAllCoordenadoresUC from './usecase/get-all-coordenadores.usecase';
+import GetCoordenadorByIdUC from './usecase/get-coordenador-by-id.usecase';
+import UpdateCoordenadorUC from './usecase/update-coordenador.usecase';
 import ProfessorRepository from 'infra/repository/professor.repository.imp';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import Pessoa from 'common/entities/pessoa/pessoa.entity';
@@ -16,6 +18,8 @@ import DeleteProfessorUC from 'modules/professor/usecase/delete-professor.usecas
   providers: [
     CreateTeacherUC,
     GetAllCoordenadoresUC,
+    GetCoordenadorByIdUC,
+    UpdateCoordenadorUC,
     DeleteProfessorUC,
     ProfessorRepository,
     UserRepository,

@@ -7,19 +7,25 @@ import {
   Inject,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   UseGuards,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiOperation,
+  ApiParam,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import CreateTeacherRequestDTO from 'modules/coordenador/dto/request/create-teacher.request.dto';
 import CreateTeacherUC from '../usecase/create-teacher.usecase';
 import GetAllCoordenadoresUC from '../usecase/get-all-coordenadores.usecase';
+import GetCoordenadorByIdUC from '../usecase/get-coordenador-by-id.usecase';
+import UpdateCoordenadorUC from '../usecase/update-coordenador.usecase';
 import GetAllCoordenadoresResponseDto from '../dto/response/get-all-coordenadores.response.dto';
+import GetCoordenadorByIdResponseDto from '../dto/response/get-coordenador-by-id.response.dto';
+import UpdateCoordenadorRequestDto from '../dto/request/update-coordenador.request.dto';
 import AuthGuardCoordinator from 'common/security/auth/entity/auth.coordinator.guard';
 import DeleteProfessorUC from 'modules/professor/usecase/delete-professor.usecase';
 import { Admin } from 'common/decorators/public.decorator';
@@ -36,6 +42,10 @@ export default class CoordinatorController {
     private readonly deleteProfessorUC: DeleteProfessorUC,
     @Inject(GetAllCoordenadoresUC)
     private readonly getAllCoordenadoresUC: GetAllCoordenadoresUC,
+    @Inject(GetCoordenadorByIdUC)
+    private readonly getCoordenadorByIdUC: GetCoordenadorByIdUC,
+    @Inject(UpdateCoordenadorUC)
+    private readonly updateCoordenadorUC: UpdateCoordenadorUC,
   ) {}
 
   @Admin()
@@ -48,6 +58,45 @@ export default class CoordinatorController {
   })
   async getAllCoordenadores(): Promise<GetAllCoordenadoresResponseDto[]> {
     return await this.getAllCoordenadoresUC.execute();
+  }
+
+  @Admin()
+  @Get(':id')
+  @ApiOperation({ summary: '[Admin Apenas] Buscar coordenador por ID' })
+  @ApiParam({ name: 'id', type: 'number', description: 'ID do coordenador' })
+  @ApiResponse({
+    status: 200,
+    description: 'Coordenador encontrado com sucesso',
+    type: GetCoordenadorByIdResponseDto,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Coordenador não encontrado',
+  })
+  async getCoordenadorById(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<GetCoordenadorByIdResponseDto> {
+    return await this.getCoordenadorByIdUC.execute(id);
+  }
+
+  @Admin()
+  @Patch(':id')
+  @HttpCode(204)
+  @ApiOperation({ summary: '[Admin Apenas] Atualizar coordenador' })
+  @ApiParam({ name: 'id', type: 'number', description: 'ID do coordenador' })
+  @ApiResponse({
+    status: 204,
+    description: 'Coordenador atualizado com sucesso',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Coordenador não encontrado',
+  })
+  async updateCoordenador(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: UpdateCoordenadorRequestDto,
+  ): Promise<void> {
+    return await this.updateCoordenadorUC.execute({ id, data: dto });
   }
 
   @Post('teacher')

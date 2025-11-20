@@ -8,13 +8,19 @@ import {
   ParseIntPipe,
   Post,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import CreateCoordinatorRequestDTO from '../../admin/dto/request/create-coordinator.request.dto';
 import CreateCoordinatorUC from '../../admin/usecase/admin/create-coordinator.usecase';
 import { Admin } from 'common/decorators/public.decorator';
 import DeleteCoordinatorUC from '../usecase/delete-coordinator.usecase';
 
 @ApiTags('admin')
+@ApiBearerAuth('JWT-auth')
 @Controller('admin')
 export default class AdminController {
   constructor(
