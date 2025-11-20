@@ -1,4 +1,10 @@
 import { Body, Controller, Inject, Post, UseGuards } from '@nestjs/common';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import CursoRequestCreateDto from '../dto/request/curso-create.request.dto';
 import CursoResponseCreateDto from '../dto/response/curso-create.response.dto';
 import CreateCursoUC from '../usecase/create-curso.usecase';
@@ -8,6 +14,7 @@ import CreateLinkDisciplineRequestDTO from '../dto/request/create-link-disciplin
 import CreateLinkDisciplineUC from '../usecase/create-link-discipline.usecase';
 import CreateLinkDisciplineResponseDTO from '../dto/response/create-link-discipline.response.dto';
 
+@ApiTags('curso')
 @Controller('curso')
 export default class CursoController {
   constructor(
@@ -20,6 +27,12 @@ export default class CursoController {
 
   @Admin()
   @Post()
+  @ApiOperation({ summary: 'Criar um novo curso (Admin apenas)' })
+  @ApiResponse({
+    status: 201,
+    description: 'Curso criado com sucesso',
+    type: CursoResponseCreateDto,
+  })
   async createCurso(
     @Body() cursoCreateDto: CursoRequestCreateDto,
   ): Promise<CursoResponseCreateDto> {
@@ -28,8 +41,16 @@ export default class CursoController {
 
   @UseGuards(AuthGuardCoordinator)
   @Post('link-discipline')
-  async linkDisciplineToCourse(@Body() linkDisciplineDto: CreateLinkDisciplineRequestDTO): Promise<CreateLinkDisciplineResponseDTO> {
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({ summary: 'Vincular uma disciplina a um curso' })
+  @ApiResponse({
+    status: 201,
+    description: 'Disciplina vinculada ao curso com sucesso',
+    type: CreateLinkDisciplineResponseDTO,
+  })
+  async linkDisciplineToCourse(
+    @Body() linkDisciplineDto: CreateLinkDisciplineRequestDTO,
+  ): Promise<CreateLinkDisciplineResponseDTO> {
     return await this.linkDisciplineUC.execute(linkDisciplineDto);
   }
-
 }

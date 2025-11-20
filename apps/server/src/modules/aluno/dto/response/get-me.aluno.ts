@@ -1,4 +1,5 @@
 import { IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { FormatCPF } from 'common/decorators/cpf-transform.decorator';
 
 export default class GetMeRequestDto {
   @IsNumber()
@@ -14,6 +15,7 @@ export default class GetMeRequestDto {
   @IsEmail()
   email: string;
 
+  @FormatCPF()
   @IsString()
   cpf: string;
 }

@@ -9,6 +9,12 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { UserJwt } from 'common/security/auth/type/user-jwt.type';
 import type { AuthenticatedRequest } from 'common/types/authenticated.request';
 import AlunoRepository from 'infra/repository/aluno.repository.imp';
@@ -33,6 +39,8 @@ import GetProjetosResponseDto from '../dto/response/get-projetos.response.dto';
 import GetAllAtividadesUC from '../usecase/get-all-atividades.usecase';
 import GetAllAtividadesResponseDto from '../dto/response/get-all-atividades.response.dto';
 
+@ApiTags('aluno')
+@ApiBearerAuth('JWT-auth')
 @Controller('aluno')
 @UseGuards(AuthGuardAluno)
 export class AlunoController {
@@ -56,6 +64,12 @@ export class AlunoController {
   ) {}
 
   @Get('me')
+  @ApiOperation({ summary: 'Buscar dados do aluno autenticado' })
+  @ApiResponse({
+    status: 200,
+    description: 'Dados do aluno retornados com sucesso',
+    type: GetMeRequestDto,
+  })
   async getMe(
     @Req() req: AuthenticatedRequest,
   ): Promise<GetMeRequestDto | null> {
@@ -71,6 +85,12 @@ export class AlunoController {
   }
 
   @Post('atividade/inscrever')
+  @ApiOperation({ summary: 'Inscrever aluno em uma atividade de extensão' })
+  @ApiResponse({
+    status: 201,
+    description: 'Aluno inscrito na atividade com sucesso',
+    type: SubscribeAtividadeResponseDto,
+  })
   async subscribeActivity(
     @Req() req: AuthenticatedRequest,
     @Body() input: SubscribeAtividadeRequestDto,
@@ -84,6 +104,12 @@ export class AlunoController {
   }
 
   @Post('atividade/desinscrever')
+  @ApiOperation({ summary: 'Desinscrever aluno de uma atividade de extensão' })
+  @ApiResponse({
+    status: 201,
+    description: 'Aluno desinscrito da atividade com sucesso',
+    type: UnsubscribeAtividadeResponseDto,
+  })
   async unsubscribeActivity(
     @Req() req: AuthenticatedRequest,
     @Body() input: UnsubscribeAtividadeRequestDto,
@@ -97,6 +123,12 @@ export class AlunoController {
   }
 
   @Post('projeto')
+  @ApiOperation({ summary: 'Criar um novo projeto de extensão' })
+  @ApiResponse({
+    status: 201,
+    description: 'Projeto criado com sucesso',
+    type: CreateProjetoResponseDto,
+  })
   async createProjeto(
     @Req() req: AuthenticatedRequest,
     @Body() input: CreateProjetoRequestDto,
@@ -107,6 +139,12 @@ export class AlunoController {
   }
 
   @Patch('projeto')
+  @ApiOperation({ summary: 'Atualizar um projeto de extensão existente' })
+  @ApiResponse({
+    status: 200,
+    description: 'Projeto atualizado com sucesso',
+    type: UpdateProjetoResponseDto,
+  })
   async updateProjeto(
     @Req() req: AuthenticatedRequest,
     @Body() input: UpdateProjetoRequestDto,
@@ -117,6 +155,12 @@ export class AlunoController {
   }
 
   @Get('projeto')
+  @ApiOperation({ summary: 'Listar todos os projetos do aluno autenticado' })
+  @ApiResponse({
+    status: 200,
+    description: 'Lista de projetos retornada com sucesso',
+    type: [GetProjetosResponseDto],
+  })
   async getProjetos(
     @Req() req: AuthenticatedRequest,
   ): Promise<GetProjetosResponseDto[]> {
@@ -126,6 +170,14 @@ export class AlunoController {
   }
 
   @Get('atividade')
+  @ApiOperation({
+    summary: 'Listar todas as atividades em que o aluno está inscrito',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Lista de atividades retornada com sucesso',
+    type: [GetAllAtividadesResponseDto],
+  })
   async getAtividades(
     @Req() req: AuthenticatedRequest,
   ): Promise<GetAllAtividadesResponseDto[]> {

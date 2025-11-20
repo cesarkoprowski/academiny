@@ -22,7 +22,7 @@ export function FormatCPF() {
     if (typeof value === 'string') {
       // Remove caracteres não numéricos primeiro
       const cpf = value.replace(/[^\d]/g, '');
-      
+
       // Aplica a máscara se tiver 11 dígitos
       if (cpf.length === 11) {
         return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
