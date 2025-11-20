@@ -1,0 +1,27 @@
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+
+@Entity('password_reset')
+export default class PasswordReset {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  email: string;
+
+  @Column()
+  code: string;
+
+  @Column({ default: false })
+  used: boolean;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @Column()
+  expiresAt: Date;
+}

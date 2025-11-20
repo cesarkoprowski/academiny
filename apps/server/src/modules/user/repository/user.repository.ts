@@ -5,4 +5,5 @@ export default interface IUserRepository extends IRepository<Pessoa> {
   getByEmail(email: string): Promise<Pessoa | null>;
   findByCpf(cpf: string): Promise<Pessoa | null>;
   findByNome(nome: string): Promise<Pessoa[]>;
+  updatePassword(id: number, hashedPassword: string): Promise<void>;
 }

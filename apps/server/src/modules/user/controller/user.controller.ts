@@ -22,6 +22,11 @@ import type { AuthenticatedRequest } from 'common/types/authenticated.request';
 import { UserJwt } from 'common/security/auth/type/user-jwt.type';
 import UpdateUserUC from '../usecases/user/update-user.usecase';
 import UpdateUserRequestDTO from '../dto/request/user-create.request.dto copy';
+import ForgotPasswordUC from '../usecases/user/forgot-password.usecase';
+import ResetPasswordUC from '../usecases/user/reset-password.usecase';
+import ForgotPasswordRequestDto from '../dto/request/forgot-password.request.dto';
+import ResetPasswordRequestDto from '../dto/request/reset-password.request.dto';
+import MessageResponseDto from '../dto/response/message.response.dto';
 
 @ApiTags('user')
 @Controller('user')
@@ -30,6 +35,8 @@ export default class UserController {
     private createUserUC: CreateUserUC,
     private loginUserUC: LoginUC,
     private updateUser: UpdateUserUC,
+    private forgotPasswordUC: ForgotPasswordUC,
+    private resetPasswordUC: ResetPasswordUC,
   ) {}
 
   @Public()
@@ -65,6 +72,40 @@ export default class UserController {
       id: user.userId,
       input: userUpdateDto,
     });
+  }
+
+  @Public()
+  @Post('forgot-password')
+  @HttpCode(200)
+  @ApiOperation({
+    summary: '[Público] Solicitar recuperação de senha por email',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Código de recuperação enviado por email',
+    type: MessageResponseDto,
+  })
+  async forgotPassword(
+    @Body() input: ForgotPasswordRequestDto,
+  ): Promise<MessageResponseDto> {
+    return await this.forgotPasswordUC.execute(input);
+  }
+
+  @Public()
+  @Post('reset-password')
+  @HttpCode(200)
+  @ApiOperation({
+    summary: '[Público] Resetar senha usando código de verificação',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Senha atualizada com sucesso',
+    type: MessageResponseDto,
+  })
+  async resetPassword(
+    @Body() input: ResetPasswordRequestDto,
+  ): Promise<MessageResponseDto> {
+    return await this.resetPasswordUC.execute(input);
   }
 
   private checkUserHelper(request: AuthenticatedRequest) {

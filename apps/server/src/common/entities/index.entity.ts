@@ -12,6 +12,7 @@ import AlunoAtividadeExtensao from 'common/aggregate/aluno-atividade/aluno-ativi
 import CursoDisciplina from 'common/aggregate/curso-disciplina/curso-disciplina.aggregate';
 import AtividadeExtensao from './atividade/atividade.entity';
 import Disciplina from './disciplina/disciplina.entity';
+import PasswordReset from './password-reset/password-reset.entity';
 
 export const Entities = [
   Pessoa,
@@ -28,4 +29,5 @@ export const Entities = [
   CursoDisciplina,
   AtividadeExtensao,
   Disciplina,
+  PasswordReset,
 ];

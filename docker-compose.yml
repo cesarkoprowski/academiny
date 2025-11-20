@@ -22,7 +22,7 @@ services:
     volumes:
       - ./:/app
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
 
   frontend:
     build:

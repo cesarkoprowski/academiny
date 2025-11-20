@@ -74,4 +74,8 @@ export default class UserRepository implements IUserRepository {
       .where('pessoa.nome ILIKE :nome', { nome: `%${nome}%` })
       .getMany();
   }
+
+  async updatePassword(id: number, hashedPassword: string): Promise<void> {
+    await this.repository.update(id, { senhaHash: hashedPassword });
+  }
 }
