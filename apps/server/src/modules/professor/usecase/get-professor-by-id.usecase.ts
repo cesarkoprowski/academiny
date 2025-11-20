@@ -14,8 +14,7 @@ export default class GetProfessorByIdUC
   ) {}
 
   async execute(id: number): Promise<GetProfessorByIdResponseDto> {
-    const professors = await this.professorRepository.findAllWithDetails();
-    const professor = professors.find((p) => p.id === id);
+    const professor = await this.professorRepository.getByProfessorId(id);
 
     if (!professor) {
       throw new NotFoundException('Professor não encontrado');

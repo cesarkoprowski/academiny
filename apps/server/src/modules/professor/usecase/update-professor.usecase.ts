@@ -19,7 +19,7 @@ export default class UpdateProfessorUC
   ) {}
 
   async execute(input: UpdateProfessorInput): Promise<void> {
-    const professor = await this.professorRepository.getById(input.id);
+    const professor = await this.professorRepository.getByProfessorId(input.id);
 
     if (!professor) {
       throw new NotFoundException('Professor não encontrado');

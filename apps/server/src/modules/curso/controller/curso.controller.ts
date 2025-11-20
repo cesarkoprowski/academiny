@@ -13,6 +13,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiBody,
   ApiOperation,
   ApiParam,
   ApiResponse,
@@ -36,6 +37,7 @@ import GetCursoByIdResponseDto from '../dto/response/get-curso-by-id.response.dt
 import GetCursoByIdUC from '../usecase/get-curso-by-id.usecase';
 
 @ApiTags('curso')
+@ApiBearerAuth('JWT-auth')
 @Controller('curso')
 export default class CursoController {
   constructor(
@@ -108,6 +110,19 @@ export default class CursoController {
   @ApiBearerAuth('JWT-auth')
   @ApiOperation({
     summary: '[Coordenador Apenas] Vincular uma disciplina a um curso',
+  })
+  @ApiBody({
+    description: 'Dados para vincular disciplina ao curso',
+    type: CreateLinkDisciplineRequestDTO,
+    examples: {
+      example1: {
+        summary: 'Exemplo de vinculação',
+        value: {
+          courseId: 1,
+          disciplineId: 5,
+        },
+      },
+    },
   })
   @ApiResponse({
     status: 201,

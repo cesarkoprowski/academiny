@@ -19,7 +19,9 @@ export default class CreateCoordinatorUC
   async execute(
     input: CreateCoordinatorRequestDTO,
   ): Promise<CreateCoordinatorResponseDTO> {
-    const professor = await this.professorRepository.getById(input.professorId);
+    const professor = await this.professorRepository.getByProfessorId(
+      input.professorId,
+    );
 
     if (!professor)
       throw new NotFoundException(

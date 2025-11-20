@@ -24,7 +24,7 @@ export default class EmailService {
           pass: testAccount.pass,
         },
       });
-      this.logger.log('📧 Email service initialized with Ethereal (test)');
+      this.logger.log('Email service initialized with Ethereal (test)');
     } else {
       console.log(process.env.SMTP_SECURE, 'smtp user');
       // Para produção, configure com suas credenciais SMTP reais
@@ -37,7 +37,7 @@ export default class EmailService {
           pass: process.env.SMTP_PASS,
         },
       });
-      this.logger.log('📧 Email service initialized with production SMTP');
+      this.logger.log('Email service initialized with production SMTP');
     }
   }
 
