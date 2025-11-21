@@ -26,7 +26,6 @@ export default class EmailService {
       });
       this.logger.log('Email service initialized with Ethereal (test)');
     } else {
-      console.log(process.env.SMTP_SECURE, 'smtp user');
       this.transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: parseInt('587'),
