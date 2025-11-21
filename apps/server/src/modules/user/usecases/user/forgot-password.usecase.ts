@@ -21,11 +21,12 @@ export default class ForgotPasswordUC
 
   async execute(input: ForgotPasswordRequestDto): Promise<{ message: string }> {
     const user = await this.userRepository.getByEmail(input.email);
+    const message =
+      'Se o email existir em nossa base, um código de recuperação foi enviado.';
 
     if (!user) {
       return {
-        message:
-          'Se o email existir em nossa base, um código de recuperação foi enviado.',
+        message,
       };
     }
 
@@ -43,8 +44,7 @@ export default class ForgotPasswordUC
     await this.emailService.sendPasswordResetEmail(input.email, code);
 
     return {
-      message:
-        'Se o email existir em nossa base, um código de recuperação foi enviado.',
+      message,
     };
   }
 

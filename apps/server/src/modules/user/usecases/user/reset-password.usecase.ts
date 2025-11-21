@@ -9,7 +9,6 @@ import UserRepository from 'infra/repository/user.repository.imp';
 import type IUserRepository from 'modules/user/repository/user.repository';
 import PasswordResetRepository from 'infra/repository/password-reset.repository.imp';
 import ResetPasswordRequestDto from 'modules/user/dto/request/reset-password.request.dto';
-import * as bcrypt from 'bcryptjs';
 import AuthService from 'common/services/auth.service';
 
 @Injectable()

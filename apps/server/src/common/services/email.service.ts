@@ -27,7 +27,6 @@ export default class EmailService {
       this.logger.log('Email service initialized with Ethereal (test)');
     } else {
       console.log(process.env.SMTP_SECURE, 'smtp user');
-      // Para produção, configure com suas credenciais SMTP reais
       this.transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: parseInt('587'),
@@ -51,6 +50,7 @@ export default class EmailService {
         text: `Seu código de recuperação de senha é: ${code}\nEste código é válido por 15 minutos.`,
       };
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const info = await this.transporter.sendMail(mailOptions);
 
       if (this.isDevelopment) {
