@@ -10,6 +10,7 @@ import type IUserRepository from 'modules/user/repository/user.repository';
 import PasswordResetRepository from 'infra/repository/password-reset.repository.imp';
 import ResetPasswordRequestDto from 'modules/user/dto/request/reset-password.request.dto';
 import * as bcrypt from 'bcryptjs';
+import AuthService from 'common/services/auth.service';
 
 @Injectable()
 export default class ResetPasswordUC
@@ -20,6 +21,8 @@ export default class ResetPasswordUC
     private readonly userRepository: IUserRepository,
     @Inject(PasswordResetRepository)
     private readonly passwordResetRepository: PasswordResetRepository,
+    @Inject(AuthService)
+    private readonly authService: AuthService,
   ) {}
 
   async execute(input: ResetPasswordRequestDto): Promise<{ message: string }> {
@@ -44,7 +47,7 @@ export default class ResetPasswordUC
       throw new NotFoundException('Usuário não encontrado.');
     }
 
-    const hashedPassword = await bcrypt.hash(input.newPassword, 10);
+    const hashedPassword = await this.authService.createHash(input.newPassword);
 
     await this.userRepository.updatePassword(user.id, hashedPassword);
 
