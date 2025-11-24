@@ -1,0 +1,9 @@
+# Ignorar node_modules
+node_modules
+
+# Ignorar builds antigos
+dist
+build
+
+# Ignorar arquivos de ambiente e segredos
+.env
