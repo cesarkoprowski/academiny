@@ -10,6 +10,7 @@ import AtividadeExtensao from 'common/entities/atividade/atividade.entity';
 import Coordenador from 'common/entities/coordenador/coordenador.entity';
 import AtividadeExtensaoRepository from 'infra/repository/atividade.repository.imp';
 import CoordinatorRepository from 'infra/repository/coordinator.repository.imp';
+import GetAllAtivUC from './usecase/atividade-getAll.usecase';
 
 @Module({
   imports: [TypeOrmModule.forFeature([AtividadeExtensao, Coordenador])],
@@ -23,6 +24,7 @@ import CoordinatorRepository from 'infra/repository/coordinator.repository.imp';
     AtividadeExtensaoGetByIdUC,
     AtividadeExtensaoRepository,
     CoordinatorRepository,
+    GetAllAtivUC,
   ],
 })
 export class AtividadeExtensaoModule {}

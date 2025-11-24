@@ -220,7 +220,7 @@ export async function linkDisciplineToCourse(data: {
 }
 
 export async function getAllActivities(token: string) {
-  const response = await fetch(`${API_BASE_URL}/aluno/atividade`, {
+  const response = await fetch(`${API_BASE_URL}/atividade`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${token}`,

@@ -27,7 +27,7 @@ pnpm-debug.log*
 lerna-debug.log*
 
 # --- Next.js (ESSENCIAL) ---
-.next/
+**/.next/
 out/
 
 # --- Build Artifacts (Gerais) ---

@@ -3,7 +3,7 @@
 import { usePathname } from 'next/navigation'
 import { NavHeader } from './nav-header'
 
-const publicRoutes = ['/login', '/register']
+const publicRoutes = ['/login', '/registro']
 
 export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()

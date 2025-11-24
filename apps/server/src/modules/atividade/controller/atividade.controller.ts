@@ -27,70 +27,16 @@ import AtividadeExtensaoDeleteUC from '../usecase/atividade-delete.usecase';
 import AtividadeExtensaoGetAllUC from '../usecase/atividade-get-all.usecase';
 import AtividadeExtensaoGetByIdUC from '../usecase/atividade-get-by-id.usecase';
 import AuthGuardCoordinator from 'common/security/auth/entity/auth.coordinator.guard';
-import { Public } from 'common/decorators/public.decorator';
 
 @ApiTags('atividade')
 @Controller('atividade')
 export default class AtividadeExtensaoController {
   constructor(
     @Inject(AtividadeExtensaoCreateUC)
-    private readonly atividadeExtensaoCreateUC: AtividadeExtensaoCreateUC,
-    @Inject(AtividadeExtensaoUpdateUC)
-    private readonly atividadeExtensaoUpdateUC: AtividadeExtensaoUpdateUC,
-    @Inject(AtividadeExtensaoDeleteUC)
-    private readonly atividadeExtensaoDeleteUC: AtividadeExtensaoDeleteUC,
-    @Inject(AtividadeExtensaoGetAllUC)
-    private readonly atividadeExtensaoGetAllUC: AtividadeExtensaoGetAllUC,
-    @Inject(AtividadeExtensaoGetByIdUC)
-    private readonly atividadeExtensaoGetByIdUC: AtividadeExtensaoGetByIdUC,
+    private readonly AtividadeExtensaoCreateUC: AtividadeExtensaoCreateUC,
   ) {}
 
-  @Public()
-  @Get()
-  @ApiOperation({
-    summary: '[Público] Buscar todas as atividades de extensão',
-  })
-  @ApiResponse({
-    status: 200,
-    description: 'Lista de atividades retornada com sucesso',
-    type: [AtividadeExtensaoCreateResponseDto],
-  })
-  async getAllAtividades(): Promise<AtividadeExtensaoCreateResponseDto[]> {
-    return await this.atividadeExtensaoGetAllUC.execute();
-  }
-
-  @Public()
-  @Get(':id')
-  @ApiOperation({
-    summary: '[Público] Buscar uma atividade de extensão por ID',
-  })
-  @ApiParam({
-    name: 'id',
-    description: 'ID da atividade de extensão',
-    example: 1,
-  })
-  @ApiResponse({
-    status: 200,
-    description: 'Atividade retornada com sucesso',
-    type: AtividadeExtensaoCreateResponseDto,
-  })
-  async getAtividadeById(
-    @Param('id', ParseIntPipe) id: number,
-  ): Promise<AtividadeExtensaoCreateResponseDto> {
-    return await this.atividadeExtensaoGetByIdUC.execute(id);
-  }
-
   @Post()
-  @UseGuards(AuthGuardCoordinator)
-  @ApiBearerAuth('JWT-auth')
-  @ApiOperation({
-    summary: '[Coordenador Apenas] Criar uma nova atividade de extensão',
-  })
-  @ApiResponse({
-    status: 201,
-    description: 'Atividade criada com sucesso',
-    type: AtividadeExtensaoCreateResponseDto,
-  })
   async createAtividade(
     @Body() atividadeCreateDto: AtividadeExtensaoCreateRequestDto,
   ): Promise<AtividadeExtensaoCreateResponseDto> {
@@ -142,4 +88,11 @@ export default class AtividadeExtensaoController {
   async deleteAtividade(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return await this.atividadeExtensaoDeleteUC.execute(id);
   }
+
+  @Get()
+  async GetAll(): Promise<GetAllAtividadesResponseDto[]> {
+    return await this.GetAllAtivUC.execute()
+  }
+
 }
+

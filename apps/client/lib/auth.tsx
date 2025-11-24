@@ -11,7 +11,7 @@ interface User {
   cpf?: string
   cursoId?: number
   matricula?: string
-  role?: 'student' | 'teacher' | 'coordinator' | 'admin'
+  role?: 'aluno' | 'professor' | 'coordenador' | 'admin'
 }
 
 interface AuthContextType {
@@ -61,7 +61,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           id: response.userId || response.id,
           nome: response.nome || 'Usuário',
           email: email,
-          role: response.role || 'student'
+          role: response.role || 'aluno'
         }
         setUser(basicUser as User)
         localStorage.setItem('user_data', JSON.stringify(basicUser))

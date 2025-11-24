@@ -40,10 +40,10 @@ export function NavHeader() {
                 <Link href="/" className="text-sm font-medium text-foreground hover:text-primary">
                   Atividades
                 </Link>
-                <Link href="/progress" className="text-sm font-medium text-muted-foreground hover:text-foreground">
+                <Link href="/progresso" className="text-sm font-medium text-muted-foreground hover:text-foreground">
                   Projetos
                 </Link>
-                <Link href="/history" className="text-sm font-medium text-muted-foreground hover:text-foreground">
+                <Link href="/historico" className="text-sm font-medium text-muted-foreground hover:text-foreground">
                   Histórico
                 </Link>
                 <Link href="/admin" className="text-sm font-medium text-muted-foreground hover:text-foreground">
