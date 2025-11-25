@@ -1,4 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Modalidade } from 'modules/curso/enum/modalidade.enum';
+import { Turno } from 'modules/curso/enum/turno.enum';
 
 export default class GetCursoByIdResponseDto {
   @ApiProperty({ description: 'ID do curso', example: 1 })
@@ -11,26 +13,23 @@ export default class GetCursoByIdResponseDto {
   nome: string;
 
   @ApiProperty({
-    description: 'Descrição do curso',
-    example: 'Graduação em Ciência da Computação',
+    description: 'Modalidade',
+    example: 'EAD',
   })
-  descricao: string;
+  modalidade: Modalidade;
 
   @ApiProperty({ description: 'Carga horária do curso', example: 3200 })
-  cargaHoraria: number;
-
-  @ApiProperty({ description: 'ID do coordenador responsável', example: 1 })
-  coordenadorId: number;
+  cargaHorariaExtensao: number;
 
   @ApiProperty({
-    description: 'Data de criação do curso',
-    example: '2024-01-15T10:30:00Z',
+    description: 'Turno',
+    example: 'Manhã',
   })
-  createdAt: Date;
+  turno: Turno;
 
   @ApiProperty({
-    description: 'Data de atualização do curso',
-    example: '2024-01-15T10:30:00Z',
+    description: 'Vagas',
+    example: '50',
   })
-  updatedAt: Date;
+  vagas: number;
 }

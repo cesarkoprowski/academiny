@@ -5,23 +5,32 @@ export default class GetDisciplinasAlunoResponseDto {
   id: number;
 
   @ApiProperty({
-    description: 'Nome da disciplina',
-    example: 'Programação Orientada a Objetos',
+    description: 'Id do Aluno',
+    example: '5',
   })
-  nome: string;
-
-  @ApiProperty({ description: 'Código da disciplina', example: 'POO101' })
-  codigo: string;
-
-  @ApiProperty({ description: 'Carga horária da disciplina', example: 80 })
-  cargaHoraria: number;
-
-  @ApiProperty({ description: 'Status da matrícula', example: 'Cursando' })
-  status: string;
+  alunoId: number;
 
   @ApiProperty({
-    description: 'Data de matrícula',
-    example: '2024-01-15T10:30:00Z',
+    description: 'Disciplina ID',
+    example: '23',
   })
-  dataMatricula: Date;
+  disciplinaId: number;
+
+  @ApiProperty({
+    description: 'Ano cursado',
+    example: '2025',
+  })
+  anoCursado: number;
+
+  @ApiProperty({ description: 'Semestre', example: '1' })
+  anoSemestre: 1 | 2;
+
+  @ApiProperty({
+    description: 'Carga horária da disciplina concluida',
+    example: 80,
+  })
+  horasExtensaoConcluida: number;
+
+  @ApiProperty({ description: 'Status da matrícula', example: 'Cursando' })
+  status: 'Aprovado' | 'Reprovado' | 'Cursando';
 }

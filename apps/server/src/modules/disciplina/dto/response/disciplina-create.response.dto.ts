@@ -1,10 +1,8 @@
-import { IsEnum, IsNotEmpty, IsNumber, IsString } from 'class-validator';
-import { Modalidade } from 'modules/curso/enum/modalidade.enum';
-import { Turno } from 'modules/curso/enum/turno.enum';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export default class DisciplinaCreateResponseDto {
   @IsNumber()
-  id: number
+  id: number;
 
   @IsString()
   @IsNotEmpty()

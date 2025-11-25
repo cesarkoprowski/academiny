@@ -18,22 +18,28 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import AtividadeExtensaoCreateRequestDto from '../dto/request/atividade-create.request.dto';
-import AtividadeExtensaoUpdateRequestDto from '../dto/request/atividade-update.request.dto';
-import AtividadeExtensaoCreateResponseDto from '../dto/response/atividade-create.response.dto';
 import AtividadeExtensaoCreateUC from '../usecase/atividade-create.usecase';
+import AtividadeExtensaoCreateRequestDto from '../dto/request/atividade-create.request.dto';
+import AtividadeExtensaoCreateResponseDto from '../dto/response/atividade-create.response.dto';
+import AtividadeExtensaoUpdateRequestDto from '../dto/request/atividade-update.request.dto';
+import AuthGuardCoordinator from 'common/security/auth/entity/auth.coordinator.guard';
 import AtividadeExtensaoUpdateUC from '../usecase/atividade-update.usecase';
 import AtividadeExtensaoDeleteUC from '../usecase/atividade-delete.usecase';
 import AtividadeExtensaoGetAllUC from '../usecase/atividade-get-all.usecase';
-import AtividadeExtensaoGetByIdUC from '../usecase/atividade-get-by-id.usecase';
-import AuthGuardCoordinator from 'common/security/auth/entity/auth.coordinator.guard';
+import GetAllAtividadesResponseDto from '../dto/response/get-all-atividades.response.dto';
 
 @ApiTags('atividade')
 @Controller('atividade')
 export default class AtividadeExtensaoController {
   constructor(
     @Inject(AtividadeExtensaoCreateUC)
-    private readonly AtividadeExtensaoCreateUC: AtividadeExtensaoCreateUC,
+    private readonly atividadeExtensaoCreateUC: AtividadeExtensaoCreateUC,
+    @Inject(AtividadeExtensaoUpdateUC)
+    private readonly atividadeExtensaoUpdateUC: AtividadeExtensaoUpdateUC,
+    @Inject(AtividadeExtensaoDeleteUC)
+    private readonly atividadeExtensaoDeleteUC: AtividadeExtensaoDeleteUC,
+    @Inject(AtividadeExtensaoDeleteUC)
+    private readonly atividadeExtensaoGetAllUC: AtividadeExtensaoGetAllUC,
   ) {}
 
   @Post()
@@ -91,8 +97,6 @@ export default class AtividadeExtensaoController {
 
   @Get()
   async GetAll(): Promise<GetAllAtividadesResponseDto[]> {
-    return await this.GetAllAtivUC.execute()
+    return await this.atividadeExtensaoGetAllUC.execute();
   }
-
 }
-
