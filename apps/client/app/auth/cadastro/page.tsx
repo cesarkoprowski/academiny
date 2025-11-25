@@ -98,11 +98,17 @@ export default function RegisterPage() {
       setTimeout(() => {
         router.push("/auth/login");
       }, 2000);
-    } catch (err) {
-      toast.error("Erro", {
-        description: err.message || "Ocorreu um erro. Tente novamente",
+    } catch (err: unknown) {
+      let errorMessage = "Ocorreu um erro. Tente novamente";
+
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      }
+
+      toast.error("Falha no cadastro", {
+        description: errorMessage,
       });
-      console.error("[v0] Registration failed:", err);
+      console.error("[v0] Login failed:", err);
     } finally {
       setIsLoading(false);
     }

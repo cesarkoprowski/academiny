@@ -47,7 +47,7 @@ export function NavHeader() {
                   Histórico
                 </Link>
                 <Link href="/admin" className="text-sm font-medium text-muted-foreground hover:text-foreground">
-                  Painel Admin
+                  Painel do administrador
                 </Link>
               </nav>
             </div>

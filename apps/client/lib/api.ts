@@ -8,7 +8,8 @@ export async function loginUser(email: string, senha: string) {
   });
 
   if (!response.ok) {
-    throw new Error("Falha no login");
+    const error = await response.json();
+    throw new Error(error.message);
   }
 
   return response.json();
@@ -21,6 +22,21 @@ export async function registerUser(data: {
   senha: string;
 }) {
   const response = await fetch(`${API_BASE_URL}/user`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+
+  return response.json();
+}
+
+export async function forgotPassword(data: { email: string }) {
+  const response = await fetch(`${API_BASE_URL}/user/forgot-password`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),

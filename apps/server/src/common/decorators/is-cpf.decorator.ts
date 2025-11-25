@@ -41,7 +41,7 @@ export function IsCPF(validationOptions?: ValidationOptions) {
           return true;
         },
         defaultMessage() {
-          return 'CPF inválido. O CPF deve ter 11 dígitos e ser válido.';
+          return 'O CPF inserido não é válido.';
         },
       },
     });

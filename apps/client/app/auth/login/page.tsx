@@ -13,7 +13,6 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { ForgotPasswordDialog } from "@/app/auth/login/forgot-password";
 import { EyeOffIcon, EyeIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -29,7 +28,6 @@ export default function LoginPage() {
 
   const { login } = useAuth();
   const router = useRouter();
-  const [openForgot, setOpenForgot] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,9 +37,20 @@ export default function LoginPage() {
       await login(email, senha);
       toast.success("Login realizado com sucesso");
       router.push("/");
-    } catch (err) {
+    } catch (err: unknown) {
+      let errorMessage = "Ocorreu um erro. Tente novamente";
+
+      if (err instanceof Error) {
+        errorMessage = err.message;
+
+        if (errorMessage.includes("strong")) {
+          errorMessage = "A senha inserida não corresponde a um usuário válido";
+        } else if (errorMessage.includes("strong")) {
+        }
+      }
+
       toast.error("Falha na autenticação", {
-        description: "Email ou senha inválidos. Por favor, tente novamente.",
+        description: errorMessage,
       });
       console.error("[v0] Login failed:", err);
     } finally {
@@ -123,8 +132,7 @@ export default function LoginPage() {
             </p>
             <p className="text-sm text-center text-muted-foreground">
               <Link
-                href="/auth/login"
-                onClick={() => setOpenForgot(true)}
+                href="/auth/recuperar-senha"
                 className="text-primary hover:underline"
               >
                 Esqueci minha senha
@@ -133,8 +141,6 @@ export default function LoginPage() {
           </CardFooter>
         </form>
       </Card>
-
-      <ForgotPasswordDialog open={openForgot} onOpenChange={setOpenForgot} />
     </div>
   );
 }
