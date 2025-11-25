@@ -12,19 +12,20 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { ForgotPasswordDialog } from "./forgot-password";
-import { AlertCircle } from "lucide-react";
+import { ForgotPasswordDialog } from "@/app/auth/login/forgot-password";
+import { EyeOffIcon, EyeIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { toast } from "sonner";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+
+  const toggleVisibility = () => setIsVisible((prev) => !prev);
 
   const { login } = useAuth();
   const router = useRouter();
@@ -32,14 +33,16 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
     setIsLoading(true);
 
     try {
       await login(email, senha);
+      toast.success("Login realizado com sucesso");
       router.push("/");
     } catch (err) {
-      setError("Email ou senha inválidos. Por favor, tente novamente.");
+      toast.error("Falha na autenticação", {
+        description: "Email ou senha inválidos. Por favor, tente novamente.",
+      });
       console.error("[v0] Login failed:", err);
     } finally {
       setIsLoading(false);
@@ -66,13 +69,6 @@ export default function LoginPage() {
         </CardHeader>
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
-            {error && (
-              <Alert variant="destructive">
-                <AlertCircle className="h-4 w-4" />
-                <AlertDescription>{error}</AlertDescription>
-              </Alert>
-            )}
-
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -88,15 +84,24 @@ export default function LoginPage() {
 
             <div className="space-y-2">
               <Label htmlFor="senha">Senha</Label>
-              <Input
-                id="senha"
-                type="password"
-                placeholder="••••••••"
-                value={senha}
-                onChange={(e) => setSenha(e.target.value)}
-                required
-                disabled={isLoading}
-              />
+              <div className="relative">
+                <Input
+                  id="senha"
+                  type={isVisible ? "text" : "password"}
+                  placeholder="••••••••"
+                  value={senha}
+                  onChange={(e) => setSenha(e.target.value)}
+                  required
+                  disabled={isLoading}
+                />
+                <button
+                  type="button"
+                  onClick={toggleVisibility}
+                  className="absolute cursor-pointer inset-y-0 end-0 flex w-9 items-center justify-center text-muted-foreground hover:text-foreground"
+                >
+                  {isVisible ? <EyeOffIcon size={16} /> : <EyeIcon size={16} />}
+                </button>
+              </div>
             </div>
           </CardContent>
           <CardFooter className="flex flex-col gap-4 pt-2">
@@ -109,13 +114,16 @@ export default function LoginPage() {
             </Button>
             <p className="text-sm text-center text-muted-foreground">
               Não tem uma conta?{" "}
-              <Link href="/registro" className="text-primary hover:underline">
+              <Link
+                href="/auth/cadastro"
+                className="text-primary hover:underline"
+              >
                 Cadastre-se
               </Link>
             </p>
             <p className="text-sm text-center text-muted-foreground">
               <Link
-                href="/login"
+                href="/auth/login"
                 onClick={() => setOpenForgot(true)}
                 className="text-primary hover:underline"
               >

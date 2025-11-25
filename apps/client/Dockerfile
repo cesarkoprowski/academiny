@@ -7,6 +7,6 @@ COPY . .
 RUN npm install -g pnpm
 RUN pnpm install
 
-EXPOSE 4000
+EXPOSE 5173
 
-CMD ["pnpm", "run", "dev", "--port", "4000"]
+CMD ["pnpm", "run", "dev", "--port", "5173"]

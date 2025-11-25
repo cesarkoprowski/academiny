@@ -78,7 +78,7 @@ export function PasswordInput({
         <button
           type="button"
           onClick={toggleVisibility}
-          className="absolute inset-y-0 end-0 flex w-9 items-center justify-center text-muted-foreground hover:text-foreground"
+          className="absolute cursor-pointer inset-y-0 end-0 flex w-9 items-center justify-center text-muted-foreground hover:text-foreground"
         >
           {isVisible ? <EyeOffIcon size={16} /> : <EyeIcon size={16} />}
         </button>

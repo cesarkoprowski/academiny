@@ -12,13 +12,12 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { PasswordInput } from "@/components/strength-password";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertCircle, CheckCircle2 } from "lucide-react";
+import { EyeIcon, EyeOffIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { toast } from "sonner";
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -28,9 +27,11 @@ export default function RegisterPage() {
     senha: "",
     confirmarSenha: "",
   });
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
+  const [success] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+
+  const toggleVisibility = () => setIsVisible((prev) => !prev);
 
   const router = useRouter();
 
@@ -66,10 +67,18 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
+
+    if (!formData.nome || !formData.email || !formData.cpf || !formData.senha) {
+      toast.warning("Campos obrigatórios", {
+        description: "Por favor, preencha todos os campos do formulário.",
+      });
+      return;
+    }
 
     if (formData.senha !== formData.confirmarSenha) {
-      setError("As senhas não coincidem");
+      toast.error("Erro de senha", {
+        description: "As senhas não coincidem.",
+      });
       return;
     }
 
@@ -83,12 +92,16 @@ export default function RegisterPage() {
         senha: formData.senha,
       });
 
-      setSuccess(true);
+      toast.success("Cadastro realizado com sucesso", {
+        description: "Efetue o login para entrar na sua conta",
+      });
       setTimeout(() => {
-        router.push("/login");
+        router.push("/auth/login");
       }, 2000);
     } catch (err) {
-      setError("Erro ao criar conta. Verifique os dados e tente novamente.");
+      toast.error("Erro", {
+        description: err.message || "Ocorreu um erro. Tente novamente",
+      });
       console.error("[v0] Registration failed:", err);
     } finally {
       setIsLoading(false);
@@ -113,24 +126,8 @@ export default function RegisterPage() {
             Preencha os dados abaixo para criar sua conta no Academiny
           </CardDescription>
         </CardHeader>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
           <CardContent className="space-y-4">
-            {error && (
-              <Alert variant="destructive">
-                <AlertCircle className="h-4 w-4" />
-                <AlertDescription>{error}</AlertDescription>
-              </Alert>
-            )}
-
-            {success && (
-              <Alert>
-                <CheckCircle2 className="h-4 w-4" />
-                <AlertDescription>
-                  Conta criada com sucesso! Redirecionando para o login...
-                </AlertDescription>
-              </Alert>
-            )}
-
             <div className="space-y-2">
               <Label htmlFor="nome">Nome</Label>
               <Input
@@ -185,17 +182,26 @@ export default function RegisterPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="confirmarSenha">Confirmação de Senha</Label>
-              <Input
-                id="confirmarSenha"
-                name="confirmarSenha"
-                type="password"
-                placeholder="••••••••"
-                value={formData.confirmarSenha}
-                onChange={handleChange}
-                required
-                disabled={isLoading || success}
-              />
+              <Label htmlFor="confirmarSenha">Confirmação de senha</Label>
+              <div className="relative">
+                <Input
+                  id="confirmarSenha"
+                  name="confirmarSenha"
+                  placeholder="••••••••"
+                  value={formData.confirmarSenha}
+                  onChange={handleChange}
+                  required
+                  type={isVisible ? "text" : "password"}
+                  disabled={isLoading || success}
+                />
+                <button
+                  type="button"
+                  onClick={toggleVisibility}
+                  className="absolute cursor-pointer inset-y-0 end-0 flex w-9 items-center justify-center text-muted-foreground hover:text-foreground"
+                >
+                  {isVisible ? <EyeOffIcon size={16} /> : <EyeIcon size={16} />}
+                </button>
+              </div>
             </div>
           </CardContent>
           <CardFooter className="flex flex-col gap-4 pt-2">
@@ -204,11 +210,11 @@ export default function RegisterPage() {
               className="w-full cursor-pointer"
               disabled={isLoading || success}
             >
-              {isLoading ? "Criando conta..." : "Criar Conta"}
+              Cadastrar-se
             </Button>
             <p className="text-sm text-center text-muted-foreground">
               Já tem uma conta?{" "}
-              <Link href="/login" className="text-primary hover:underline">
+              <Link href="/auth/login" className="text-primary hover:underline">
                 Faça login
               </Link>
             </p>

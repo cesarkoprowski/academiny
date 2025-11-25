@@ -89,7 +89,7 @@ export default function ProgressPage() {
           </CardHeader>
           <CardContent>
             <Button asChild className="w-full">
-              <Link href="/login">Fazer Login</Link>
+              <Link href="/auth/login">Fazer Login</Link>
             </Button>
           </CardContent>
         </Card>
