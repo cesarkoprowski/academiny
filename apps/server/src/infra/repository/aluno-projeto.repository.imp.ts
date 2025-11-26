@@ -63,10 +63,8 @@ export default class AlunoProjetoRepository {
 
   async findByProjeto(
     projetoExtensaoId: number,
-  ): Promise<AlunoProjetoExtensao[]> {
-    return await this.repository.find({
-      where: { projetoExtensaoId },
-    });
+  ): Promise<AlunoProjetoExtensao | null> {
+    return await this.repository.findOneBy({ projetoExtensaoId });
   }
 
   async findByAlunoAndProjeto(

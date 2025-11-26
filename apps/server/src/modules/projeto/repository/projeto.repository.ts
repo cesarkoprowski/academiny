@@ -8,4 +8,6 @@ export default interface IProjetoExtensaoRepository
     minHoras: number,
     maxHoras?: number,
   ): Promise<ProjetoExtensao[]>;
+  acceptProjeto(id: number): Promise<void>;
+  deniedProjeto(id: number): Promise<void>;
 }

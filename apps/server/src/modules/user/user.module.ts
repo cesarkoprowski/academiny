@@ -13,9 +13,13 @@ import EmailService from 'common/services/email.service';
 import ForgotPasswordUC from './usecases/user/forgot-password.usecase';
 import ResetPasswordUC from './usecases/user/reset-password.usecase';
 import GetMeUC from './usecases/user/get-me.usecase';
+import GetAllNotificationUC from 'modules/notification/usecase/get-all-notification.usecase';
+import NotificationRepository from 'modules/notification/repository/notification.repository';
+import Notification from 'common/entities/notification/notification.entity';
+import ReadAllNotificationUC from 'modules/notification/usecase/read-all-notification.usecase';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Pessoa, PasswordReset])],
+  imports: [TypeOrmModule.forFeature([Pessoa, PasswordReset, Notification])],
   providers: [
     CreateUserUC,
     LoginUC,
@@ -26,6 +30,9 @@ import GetMeUC from './usecases/user/get-me.usecase';
     EmailService,
     ForgotPasswordUC,
     ResetPasswordUC,
+    GetAllNotificationUC,
+    NotificationRepository,
+    ReadAllNotificationUC,
     GetMeUC,
   ],
   controllers: [UserController],

@@ -29,6 +29,8 @@ import ForgotPasswordRequestDto from '../dto/request/forgot-password.request.dto
 import ResetPasswordRequestDto from '../dto/request/reset-password.request.dto';
 import MessageResponseDto from '../dto/response/message.response.dto';
 import GetMeUC from '../usecases/user/get-me.usecase';
+import GetAllNotificationUC from 'modules/notification/usecase/get-all-notification.usecase';
+import ReadAllNotificationUC from 'modules/notification/usecase/read-all-notification.usecase';
 
 @ApiTags('user')
 @Controller('user')
@@ -40,6 +42,8 @@ export default class UserController {
     private forgotPasswordUC: ForgotPasswordUC,
     private resetPasswordUC: ResetPasswordUC,
     private getMeUC: GetMeUC,
+    private getMyNotificationUC: GetAllNotificationUC,
+    private readAllNotificationUC: ReadAllNotificationUC,
   ) {}
 
   @Public()
@@ -86,6 +90,32 @@ export default class UserController {
   async getMe(@Req() request: AuthenticatedRequest) {
     const user = this.checkUserHelper(request);
     return await this.getMeUC.execute(user.userId);
+  }
+
+  @Get('my-notification')
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({
+    summary: '[Autenticado] Recupera todas as notificações do user autenticado',
+  })
+  @ApiResponse({ status: 200, description: 'Notificações buscada com sucesso' })
+  async getNotification(@Req() request: AuthenticatedRequest) {
+    const user = this.checkUserHelper(request);
+    return await this.getMyNotificationUC.execute(user.userId);
+  }
+
+  @Post('my-notification')
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({
+    summary:
+      '[Autenticado] Marca como lida todas as notificações do user autenticado',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Notificações atualizadas com sucesso',
+  })
+  async seeMyNotification(@Req() request: AuthenticatedRequest) {
+    const user = this.checkUserHelper(request);
+    return await this.readAllNotificationUC.execute(user.userId);
   }
 
   @Public()

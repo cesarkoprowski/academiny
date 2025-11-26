@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import IProjetoExtensaoRepository from 'modules/projeto/repository/projeto.repository';
 import { Repository } from 'typeorm';
+import { EProjetoStatus } from 'modules/projeto/enum/projeto-status.enum';
 
 @Injectable()
 export default class ProjetoExtensaoRepository
@@ -12,6 +13,14 @@ export default class ProjetoExtensaoRepository
     @InjectRepository(ProjetoExtensao)
     private readonly repository: Repository<ProjetoExtensao>,
   ) {}
+
+  async acceptProjeto(id: number): Promise<void> {
+    await this.update(id, { status: EProjetoStatus.APROVADO });
+  }
+
+  async deniedProjeto(id: number): Promise<void> {
+    await this.update(id, { status: EProjetoStatus.REPROVADO });
+  }
 
   async create(input: Partial<ProjetoExtensao>): Promise<ProjetoExtensao> {
     const newProjeto: Partial<ProjetoExtensao> = {
