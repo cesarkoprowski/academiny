@@ -1,0 +1,29 @@
+networks:
+  proxy_manager:
+    external: true
+
+services:
+  academiny-client:
+    # image: meuusuario/client:latest
+    build:
+      context: ./apps/client
+      dockerfile: Dockerfile.prod
+    container_name: academiny-client
+    networks:
+      - proxy_manager
+    expose:
+      - "80"
+    restart: unless-stopped
+
+  academiny-server:
+    # image: meuusuario/server:latest
+    build:
+      context: ./apps/server
+      dockerfile: Dockerfile.prod
+    container_name: academiny-server
+    env_file: .env.prod
+    networks:
+      - proxy_manager
+    expose:
+      - "3000"
+    restart: unless-stopped
