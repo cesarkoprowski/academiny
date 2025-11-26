@@ -33,6 +33,14 @@ export default function LoginPage() {
     e.preventDefault();
     setIsLoading(true);
 
+    if (!email || !senha) {
+      toast.warning("Campos obrigatórios", {
+        description: "Por favor, preencha todos os campos do formulário.",
+      });
+      setIsLoading(false);
+      return;
+    }
+
     try {
       await login(email, senha);
       toast.success("Login realizado com sucesso");
@@ -45,7 +53,6 @@ export default function LoginPage() {
 
         if (errorMessage.includes("strong")) {
           errorMessage = "A senha inserida não corresponde a um usuário válido";
-        } else if (errorMessage.includes("strong")) {
         }
       }
 
@@ -76,7 +83,7 @@ export default function LoginPage() {
             Entre com suas credenciais para acessar a plataforma
           </CardDescription>
         </CardHeader>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>

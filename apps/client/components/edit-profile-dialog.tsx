@@ -13,11 +13,23 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/lib/auth";
+import { useEffect } from "react";
 import { updateUserProfile } from "@/lib/api";
+import { toast } from "sonner";
 
 interface EditProfileDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+}
+
+function formatCPF(value: string | undefined | null) {
+  if (!value) return "";
+
+  const cpf = value.replace(/\D/g, "");
+
+  if (cpf.length > 11) return value;
+
+  return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
 }
 
 export function EditProfileDialog({
@@ -32,18 +44,39 @@ export function EditProfileDialog({
     cpf: user?.cpf || "",
   });
 
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        nome: user.nome || "",
+        email: user.email || "",
+        cpf: user.cpf || "",
+      });
+    }
+  }, [user]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!token) return;
 
     setLoading(true);
     try {
-      const updated = await updateUserProfile(formData, token);
-      updateUser(updated);
+      debugger;
+
+      await updateUserProfile(formData, token);
+      if (!user) return;
+      updateUser({ ...user, ...formData });
+
+      toast.success("Alterações salvas com sucesso");
+
       onOpenChange(false);
-    } catch (error) {
-      console.error("Erro ao atualizar perfil:", error);
-      alert("Erro ao atualizar perfil");
+    } catch (err) {
+      let errorMessage =
+        "Não foi possível salvar suas alterações. Tente novamente";
+
+      toast.error("Erro", {
+        description: errorMessage,
+      });
+      console.error("[v0] Login failed:", err);
     } finally {
       setLoading(false);
     }
@@ -85,7 +118,12 @@ export function EditProfileDialog({
             </div>
             <div className="grid gap-2">
               <Label htmlFor="cpf">CPF</Label>
-              <Input id="cpf" disabled value={formData.cpf} required />
+              <Input
+                id="cpf"
+                disabled
+                value={formatCPF(formData.cpf)}
+                required
+              />
             </div>
           </div>
           <DialogFooter>

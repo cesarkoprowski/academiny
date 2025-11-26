@@ -207,7 +207,7 @@ export default function ActivityDetailsPage() {
                   activityTitle={activity.title}
                   activityHours={activity.hours}
                 />
-                <SelfEvaluationDialog activityTitle={activity.title} />
+                <SelfEvaluationDialog activityId={activity.id} activityTitle={activity.title} />
                 <p className="text-xs text-muted-foreground">
                   Disponível após conclusão da atividade
                 </p>

@@ -1,15 +1,21 @@
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react'
-import { Clock, CheckCircle2, AlertCircle, FileText, Bell } from 'lucide-react'
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { useAuth } from "@/lib/auth"
-import { getStudentInfo } from "@/lib/api"
-import Link from "next/link"
+import { useEffect, useState } from "react";
+import { Clock, CheckCircle2, AlertCircle, FileText, Bell } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useAuth } from "@/lib/auth";
+import { getStudentInfo } from "@/lib/api";
+import Link from "next/link";
 
 const enrolledActivities = [
   {
@@ -28,7 +34,7 @@ const enrolledActivities = [
     status: "Aguardando aprovação",
     statusType: "pending",
   },
-]
+];
 
 const notifications = [
   {
@@ -41,41 +47,42 @@ const notifications = [
   {
     id: 2,
     title: "Documento Pendente",
-    message: "Faça o upload da ficha de frequência da atividade 'Tecnologia Social'",
+    message:
+      "Faça o upload da ficha de frequência da atividade 'Tecnologia Social'",
     type: "warning",
     date: "Há 1 dia",
   },
-]
+];
 
 export default function ProgressPage() {
-  const { token, user, isAuthenticated } = useAuth()
-  const [studentData, setStudentData] = useState<any>(null)
-  const [isLoading, setIsLoading] = useState(true)
-  
+  const { token, user, isAuthenticated } = useAuth();
+  const [studentData, setStudentData] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const fetchStudentData = async () => {
       if (!token || !isAuthenticated) {
-        setIsLoading(false)
-        return
+        setIsLoading(false);
+        return;
       }
-      
+
       try {
-        const data = await getStudentInfo(token)
-        console.log("[v0] Student data fetched:", data)
-        setStudentData(data)
+        const data = await getStudentInfo(token);
+        console.log("[v0] Student data fetched:", data);
+        setStudentData(data);
       } catch (error) {
-        console.error("[v0] Error fetching student data:", error)
+        console.error("[v0] Error fetching student data:", error);
       } finally {
-        setIsLoading(false)
+        setIsLoading(false);
       }
-    }
-    
-    fetchStudentData()
-  }, [token, isAuthenticated])
-  
-  const totalRequired = 200
-  const totalCompleted = 85
-  const progressPercentage = (totalCompleted / totalRequired) * 100
+    };
+
+    fetchStudentData();
+  }, [token, isAuthenticated]);
+
+  const totalRequired = 270;
+  const totalCompleted = 85;
+  const progressPercentage = (totalCompleted / totalRequired) * 100;
 
   if (!isAuthenticated) {
     return (
@@ -94,7 +101,7 @@ export default function ProgressPage() {
           </CardContent>
         </Card>
       </div>
-    )
+    );
   }
 
   return (
@@ -106,14 +113,9 @@ export default function ProgressPage() {
           <p className="text-muted-foreground">
             Acompanhe suas atividades de extensão e horas cumpridas
           </p>
-          {studentData && (
-            <div className="mt-2 text-sm text-muted-foreground">
-              Matrícula: {studentData.matricula} | CPF: {studentData.cpf}
-            </div>
-          )}
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
             {/* Progress Overview */}
@@ -121,7 +123,8 @@ export default function ProgressPage() {
               <CardHeader>
                 <CardTitle>Resumo de Horas</CardTitle>
                 <CardDescription>
-                  Acompanhe seu progresso até completar a carga horária obrigatória
+                  Acompanhe seu progresso até completar a carga horária
+                  obrigatória
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -137,16 +140,26 @@ export default function ProgressPage() {
 
                 <div className="grid grid-cols-3 gap-4">
                   <div className="text-center p-4 rounded-lg bg-primary/10">
-                    <div className="text-2xl font-bold text-primary">{totalCompleted}h</div>
-                    <div className="text-xs text-muted-foreground mt-1">Cumpridas</div>
+                    <div className="text-2xl font-bold text-primary">
+                      {totalCompleted}h
+                    </div>
+                    <div className="text-xs text-muted-foreground mt-1">
+                      Cumpridas
+                    </div>
                   </div>
                   <div className="text-center p-4 rounded-lg bg-chart-4/10">
                     <div className="text-2xl font-bold text-chart-4">55h</div>
-                    <div className="text-xs text-muted-foreground mt-1">Em andamento</div>
+                    <div className="text-xs text-muted-foreground mt-1">
+                      Em andamento
+                    </div>
                   </div>
                   <div className="text-center p-4 rounded-lg bg-muted">
-                    <div className="text-2xl font-bold">{totalRequired - totalCompleted}h</div>
-                    <div className="text-xs text-muted-foreground mt-1">Pendentes</div>
+                    <div className="text-2xl font-bold">
+                      {totalRequired - totalCompleted}h
+                    </div>
+                    <div className="text-xs text-muted-foreground mt-1">
+                      Pendentes
+                    </div>
                   </div>
                 </div>
               </CardContent>
@@ -162,11 +175,13 @@ export default function ProgressPage() {
               </CardHeader>
               <CardContent>
                 <Tabs defaultValue="active">
-                  <TabsList className="mb-4">
-                    <TabsTrigger value="active">Em Andamento</TabsTrigger>
-                    <TabsTrigger value="pending">Aguardando Aprovação</TabsTrigger>
+                  <TabsList className="mb-4 w-full">
+                    <TabsTrigger value="active">Em andamento</TabsTrigger>
+                    <TabsTrigger value="pending">
+                      Aguardando aprovação
+                    </TabsTrigger>
                   </TabsList>
-                  
+
                   <TabsContent value="active" className="space-y-4">
                     {enrolledActivities
                       .filter((a) => a.statusType === "progress")
@@ -183,7 +198,9 @@ export default function ProgressPage() {
                                     <Clock className="h-4 w-4" />
                                     {activity.hours}h totais
                                   </span>
-                                  <Badge variant="secondary">{activity.status}</Badge>
+                                  <Badge variant="secondary">
+                                    {activity.status}
+                                  </Badge>
                                 </div>
                               </div>
                             </div>
@@ -196,8 +213,10 @@ export default function ProgressPage() {
                                   {activity.completed}/{activity.hours}h
                                 </span>
                               </div>
-                              <Progress 
-                                value={(activity.completed / activity.hours) * 100} 
+                              <Progress
+                                value={
+                                  (activity.completed / activity.hours) * 100
+                                }
                                 className="h-2"
                               />
                             </div>
@@ -208,9 +227,7 @@ export default function ProgressPage() {
                                   Ver Detalhes
                                 </Link>
                               </Button>
-                              <Button size="sm">
-                                Enviar Comprovação
-                              </Button>
+                              <Button size="sm">Enviar Comprovação</Button>
                             </div>
                           </CardContent>
                         </Card>
@@ -233,7 +250,9 @@ export default function ProgressPage() {
                                     <Clock className="h-4 w-4" />
                                     {activity.hours}h totais
                                   </span>
-                                  <Badge variant="outline">{activity.status}</Badge>
+                                  <Badge variant="outline">
+                                    {activity.status}
+                                  </Badge>
                                 </div>
                               </div>
                             </div>
@@ -256,62 +275,8 @@ export default function ProgressPage() {
               </CardContent>
             </Card>
           </div>
-
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Notifications */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Bell className="h-5 w-5" />
-                  Notificações
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {notifications.map((notification) => (
-                  <div key={notification.id} className="space-y-1">
-                    <div className="flex items-start gap-2">
-                      {notification.type === "success" ? (
-                        <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                      ) : (
-                        <AlertCircle className="h-5 w-5 text-chart-4 shrink-0 mt-0.5" />
-                      )}
-                      <div className="flex-1">
-                        <div className="font-medium text-sm">{notification.title}</div>
-                        <div className="text-xs text-muted-foreground">
-                          {notification.message}
-                        </div>
-                        <div className="text-xs text-muted-foreground mt-1">
-                          {notification.date}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
-
-            {/* Quick Actions */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Ações Rápidas</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <Button variant="outline" className="w-full justify-start" asChild>
-                  <Link href="/">
-                    Explorar Novas Atividades
-                  </Link>
-                </Button>
-                <Button variant="outline" className="w-full justify-start" asChild>
-                  <Link href="/history">
-                    Ver Histórico Completo
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

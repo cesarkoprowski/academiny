@@ -1,10 +1,25 @@
-import { Users, FileText, CheckCircle2, Clock, AlertCircle, Plus, Search, Filter } from 'lucide-react'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import Link from "next/link"
+import {
+  Users,
+  FileText,
+  CheckCircle2,
+  Clock,
+  AlertCircle,
+  Plus,
+  Search,
+  Filter,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Link from "next/link";
 
 const pendingSubmissions = [
   {
@@ -15,23 +30,7 @@ const pendingSubmissions = [
     hours: 40,
     documentLink: "https://drive.google.com/...",
   },
-  {
-    id: 2,
-    studentName: "João Pedro",
-    activityTitle: "Oficinas de Programação para Jovens",
-    submittedDate: "2024-01-14",
-    hours: 30,
-    documentLink: "https://drive.google.com/...",
-  },
-  {
-    id: 3,
-    studentName: "Ana Costa",
-    activityTitle: "Pesquisa em Inteligência Artificial",
-    submittedDate: "2024-01-13",
-    hours: 60,
-    documentLink: "https://drive.google.com/...",
-  },
-]
+];
 
 const activities = [
   {
@@ -42,31 +41,7 @@ const activities = [
     capacity: 20,
     hours: 40,
   },
-  {
-    id: 2,
-    title: "Oficinas de Programação para Jovens",
-    status: "Ativa",
-    enrolled: 8,
-    capacity: 15,
-    hours: 30,
-  },
-  {
-    id: 3,
-    title: "Pesquisa em Inteligência Artificial",
-    status: "Inscrições Abertas",
-    enrolled: 20,
-    capacity: 25,
-    hours: 60,
-  },
-  {
-    id: 4,
-    title: "Consultoria em Transformação Digital",
-    status: "Inativa",
-    enrolled: 0,
-    capacity: 12,
-    hours: 50,
-  },
-]
+];
 
 export default function AdminPage() {
   return (
@@ -75,21 +50,21 @@ export default function AdminPage() {
       <div className="container mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold mb-2">Painel Administrativo</h1>
+            <h1 className="text-3xl font-bold mb-2">Painel administrativo</h1>
             <p className="text-muted-foreground">
               Gerencie atividades e avalie submissões de alunos
             </p>
           </div>
           <Button size="lg" asChild>
             <Link href="/admin/activity/new">
-              <Plus className="h-4 w-4 mr-2" />
+              <Plus className="h-4 w-4" />
               Nova Atividade
             </Link>
           </Button>
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-3 gap-4 mb-8">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
@@ -99,9 +74,6 @@ export default function AdminPage() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">12</div>
-              <p className="text-xs text-muted-foreground mt-1">
-                +2 este mês
-              </p>
             </CardContent>
           </Card>
 
@@ -114,9 +86,6 @@ export default function AdminPage() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">342</div>
-              <p className="text-xs text-muted-foreground mt-1">
-                +48 esta semana
-              </p>
             </CardContent>
           </Card>
 
@@ -134,29 +103,14 @@ export default function AdminPage() {
               </p>
             </CardContent>
           </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Aprovadas (mês)
-              </CardTitle>
-              <CheckCircle2 className="h-4 w-4 text-primary" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-primary">156</div>
-              <p className="text-xs text-muted-foreground mt-1">
-                Taxa de aprovação: 94%
-              </p>
-            </CardContent>
-          </Card>
         </div>
 
         {/* Main Content */}
         <Tabs defaultValue="submissions" className="space-y-6">
-          <TabsList>
-            <TabsTrigger value="submissions">Submissões Pendentes</TabsTrigger>
-            <TabsTrigger value="activities">Gerenciar Atividades</TabsTrigger>
-            <TabsTrigger value="reports">Relatórios</TabsTrigger>
+          <TabsList className="w-full">
+            <TabsTrigger className="cursor-pointer" value="reports">Alunos</TabsTrigger>
+            <TabsTrigger className="cursor-pointer" value="activities">Atividades</TabsTrigger>
+            <TabsTrigger className="cursor-pointer" value="submissions">Projetos</TabsTrigger>
           </TabsList>
 
           {/* Submissions Tab */}
@@ -164,7 +118,10 @@ export default function AdminPage() {
             <div className="flex items-center gap-4 mb-4">
               <div className="relative flex-1 max-w-md">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input placeholder="Buscar por aluno ou atividade..." className="pl-9" />
+                <Input
+                  placeholder="Buscar por aluno ou atividade..."
+                  className="pl-9"
+                />
               </div>
               <Button variant="outline" size="sm">
                 <Filter className="h-4 w-4 mr-2" />
@@ -181,12 +138,19 @@ export default function AdminPage() {
                         <div className="flex items-center gap-3 mb-2">
                           <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
                             <span className="text-sm font-medium text-primary">
-                              {submission.studentName.split(' ').map(n => n[0]).join('')}
+                              {submission.studentName
+                                .split(" ")
+                                .map((n) => n[0])
+                                .join("")}
                             </span>
                           </div>
                           <div>
-                            <CardTitle className="text-lg">{submission.studentName}</CardTitle>
-                            <CardDescription>{submission.activityTitle}</CardDescription>
+                            <CardTitle className="text-lg">
+                              {submission.studentName}
+                            </CardTitle>
+                            <CardDescription>
+                              {submission.activityTitle}
+                            </CardDescription>
                           </div>
                         </div>
                       </div>
@@ -197,18 +161,28 @@ export default function AdminPage() {
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="flex items-center gap-6 text-sm text-muted-foreground">
-                      <span>Enviado em {new Date(submission.submittedDate).toLocaleDateString('pt-BR')}</span>
+                      <span>
+                        Enviado em{" "}
+                        {new Date(submission.submittedDate).toLocaleDateString(
+                          "pt-BR"
+                        )}
+                      </span>
                       <span className="flex items-center gap-1">
                         <Clock className="h-4 w-4" />
-                        Há {Math.floor((Date.now() - new Date(submission.submittedDate).getTime()) / (1000 * 60 * 60 * 24))} dias
+                        Há{" "}
+                        {Math.floor(
+                          (Date.now() -
+                            new Date(submission.submittedDate).getTime()) /
+                            (1000 * 60 * 60 * 24)
+                        )}{" "}
+                        dias
                       </span>
                     </div>
 
                     <div className="p-3 rounded-lg bg-muted">
-                      <div className="text-sm font-medium mb-1">Link dos Documentos:</div>
-                      <a 
-                        href={submission.documentLink} 
-                        target="_blank" 
+                      <a
+                        href={submission.documentLink}
+                        target="_blank"
                         rel="noopener noreferrer"
                         className="text-sm text-primary hover:underline break-all"
                       >
@@ -223,8 +197,12 @@ export default function AdminPage() {
                         </Link>
                       </Button>
                       <Button variant="outline" asChild>
-                        <a href={submission.documentLink} target="_blank" rel="noopener noreferrer">
-                          Abrir Documentos
+                        <a
+                          href={submission.documentLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Abrir Drive
                         </a>
                       </Button>
                     </div>
@@ -254,9 +232,17 @@ export default function AdminPage() {
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-2">
-                          <CardTitle className="text-lg">{activity.title}</CardTitle>
-                          <Badge 
-                            variant={activity.status === "Ativa" ? "default" : activity.status === "Inscrições Abertas" ? "secondary" : "outline"}
+                          <CardTitle className="text-lg">
+                            {activity.title}
+                          </CardTitle>
+                          <Badge
+                            variant={
+                              activity.status === "Ativa"
+                                ? "default"
+                                : activity.status === "Inscrições Abertas"
+                                ? "secondary"
+                                : "outline"
+                            }
                           >
                             {activity.status}
                           </Badge>
@@ -285,8 +271,8 @@ export default function AdminPage() {
                         Ver Alunos
                       </Link>
                     </Button>
-                    <Button 
-                      variant="ghost" 
+                    <Button
+                      variant="ghost"
                       size="sm"
                       className="text-destructive hover:text-destructive"
                     >
@@ -365,5 +351,5 @@ export default function AdminPage() {
         </Tabs>
       </div>
     </div>
-  )
+  );
 }

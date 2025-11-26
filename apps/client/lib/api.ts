@@ -70,7 +70,7 @@ export async function resetPassword(data: {
 }
 
 export async function getStudentInfo(token: string) {
-  const response = await fetch(`${API_BASE_URL}/aluno/me`, {
+  const response = await fetch(`${API_BASE_URL}/user/get-me`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -299,11 +299,11 @@ export async function updateUserProfile(
   data: {
     nome: string;
     email: string;
-    cpf: string;
   },
   token: string
 ) {
-  const response = await fetch(`${API_BASE_URL}/user/profile`, {
+  debugger
+  const response = await fetch(`${API_BASE_URL}/user/update`, {
     method: "PUT",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -316,5 +316,5 @@ export async function updateUserProfile(
     throw new Error("Falha ao atualizar perfil");
   }
 
-  return response.json();
+  return null;
 }
