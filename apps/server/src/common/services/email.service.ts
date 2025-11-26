@@ -87,99 +87,142 @@ export default class EmailService {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Recuperação de Senha</title>
         <style>
-          body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-          }
+          /* Reset básico */
+          body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+          
+          /* Container Principal */
           .container {
             max-width: 600px;
             margin: 40px auto;
             background-color: #ffffff;
-            border-radius: 8px;
+            border-radius: 12px; /* Mais arredondado = mais moderno */
             overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
           }
+
+          /* Header com Gradiente */
           .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #ffffff;
-            padding: 30px 20px;
+            background: #fdfbfb; 
+            background: linear-gradient(120deg, #ffffff 0%, #ebedee 100%);  
+            color: #333333; 
+            padding: 40px 20px;
             text-align: center;
+            border-bottom: 1px solid #e5e5e5;
           }
+          
+          .logo {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+          }
+          
           .header h1 {
             margin: 0;
-            font-size: 24px;
+            font-size: 20px;
+            font-weight: 500;
+            opacity: 0.9;
           }
-          .content {
-            padding: 40px 30px;
-          }
-          .content p {
+
+          /* Conteúdo */
+          .content { padding: 40px 30px; }
+          
+          .text-main {
             color: #333333;
             line-height: 1.6;
+            font-size: 16px;
             margin: 0 0 20px;
           }
+
+          /* Caixa do Código */
           .code-box {
-            background-color: #f8f9fa;
+            background-color: #f0f4ff;
             border: 2px dashed #667eea;
-            border-radius: 6px;
-            padding: 20px;
+            border-radius: 8px;
+            padding: 24px;
             text-align: center;
             margin: 30px 0;
           }
+          
+          .code-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #764ba2;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+          }
+          
           .code {
-            font-size: 32px;
-            font-weight: bold;
-            color: #667eea;
-            letter-spacing: 8px;
+            font-size: 36px;
+            font-weight: 800;
+            color: #2d3748;
+            letter-spacing: 6px;
             font-family: 'Courier New', monospace;
           }
-          .warning {
-            background-color: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 4px;
-          }
-          .warning p {
-            margin: 0;
-            color: #856404;
-            font-size: 14px;
-          }
+
+          /* Aviso e Footer */
           .footer {
             background-color: #f8f9fa;
             padding: 20px;
             text-align: center;
-            color: #6c757d;
+            color: #9ca3af;
             font-size: 12px;
+            border-top: 1px solid #eeeeee;
+          }
+
+          /* Utilitários para esconder o preheader na visualização visual, mas manter no código */
+          .preheader {
+            display: none !important;
+            visibility: hidden;
+            mso-hide: all;
+            font-size: 1px;
+            line-height: 1px;
+            max-height: 0;
+            max-width: 0;
+            opacity: 0;
+            overflow: hidden;
           }
         </style>
       </head>
       <body>
+        
+        <div class="preheader">
+          Seu código de verificação é ${code}. Use este código para redefinir sua senha no Academiny. Expira em 15 minutos.
+        </div>
+
         <div class="container">
           <div class="header">
-            <h1>🔐 Recuperação de Senha</h1>
+            <img 
+              src="https://mcophewsxcqhxzbxocgq.supabase.co/storage/v1/object/public/assets/academiny-logo.png" 
+              alt="Academiny" 
+              class="logo-academiny-img"
+              width="200" 
+              style="max-width: 150px; height: auto;"
+            />
           </div>
+            
           <div class="content">
-            <p>Olá,</p>
-            <p>Você solicitou a recuperação de senha da sua conta no <strong>Academiny</strong>.</p>
-            <p>Use o código abaixo para redefinir sua senha:</p>
+            <h1 style="color: #ffffff; margin: 0; font-size: 20px;">Recuperação de Senha</h1>
+            <p class="text-main">Olá,</p>
+            <p class="text-main">Recebemos uma solicitação para redefinir a senha da sua conta.</p>
             
             <div class="code-box">
+              <span class="code-label">Seu código de verificação</span>
               <div class="code">${code}</div>
             </div>
             
-            <div class="warning">
-              <p><strong>⏰ Este código expira em 15 minutos.</strong></p>
-            </div>
+            <p class="text-main" style="font-size: 14px; color: #666;">
+              ⏰ Este código expira em <strong>15 minutos</strong>.
+            </p>
             
-            <p>Se você não solicitou esta recuperação de senha, por favor ignore este email. Sua senha permanecerá inalterada.</p>
-            
-            <p>Atenciosamente,<br>Equipe Academiny</p>
+            <p class="text-main" style="margin-top: 30px;">
+              Se você não solicitou essa alteração, nenhuma ação é necessária e sua conta permanece segura.
+            </p>
           </div>
+          
           <div class="footer">
-            <p>Este é um email automático. Por favor, não responda.</p>
-            <p>&copy; ${new Date().getFullYear()} Academiny. Todos os direitos reservados.</p>
+            <p>&copy; ${new Date().getFullYear()} Academiny Inc.</p>
           </div>
         </div>
       </body>

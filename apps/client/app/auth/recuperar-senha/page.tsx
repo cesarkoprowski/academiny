@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { forgotPassword } from "@/lib/api";
+import { forgotPassword, resetPassword } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,6 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { PasswordInput } from "@/components/strength-password";
 import Link from "next/link";
 import Image from "next/image";
 import { toast } from "sonner";
@@ -22,6 +23,8 @@ import { EyeOffIcon, EyeIcon } from "lucide-react";
 export default function ForgotPasswordPage() {
   const [formData, setFormData] = useState({
     email: "",
+    code: "",
+    newPassword: "",
   });
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -37,7 +40,7 @@ export default function ForgotPasswordPage() {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmitForgot = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!formData.email) {
@@ -75,6 +78,46 @@ export default function ForgotPasswordPage() {
     }
   };
 
+  const handleSubmitReset = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!formData.email) {
+      toast.warning("Campos obrigatórios", {
+        description: "Por favor, preencha todos os campos do formulário.",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      await resetPassword({
+        email: formData.email,
+        code: formData.code,
+        newPassword: formData.newPassword,
+      });
+
+      toast.success("Email enviado", {
+        description:
+          "Um link para recuperação da senha foi enviado no seu email",
+      });
+
+      setSuccess(true);
+    } catch (err: unknown) {
+      let errorMessage = "Ocorreu um erro ao enviar o email de recuperação";
+
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      }
+
+      toast.error("Falha no envio", {
+        description: errorMessage,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       {/* Se sucesso = true, mostra o card de sucesso */}
@@ -86,39 +129,34 @@ export default function ForgotPasswordPage() {
               Insira o código enviado para o seu email abaixo{" "}
             </CardDescription>
           </CardHeader>
-          <CardContent className="text-center">
-            <OTPInput />
-            <div className="space-y-2">
-              <Label htmlFor="senha">Senha</Label>
-              <div className="relative">
-                <Input
-                  id="senha"
-                  type={isVisible ? "text" : "password"}
+          <form onSubmit={handleSubmitReset}>
+            <CardContent className="text-center">
+              <OTPInput
+                value={formData.code}
+                onChange={(v) => setFormData((p) => ({ ...p, code: v }))}
+              />
+              <div className="pt-4 space-y-2">
+                <PasswordInput
+                  label="Nova senha"
                   placeholder="••••••••"
-                  value={senha}
-                  onChange={(e) => setSenha(e.target.value)}
-                  required
-                  disabled={isLoading}
+                  name="senha"
+                  value={formData.newPassword}
+                  onChange={(v) =>
+                    setFormData((p) => ({ ...p, newPassword: v }))
+                  }
                 />
-                <button
-                  type="button"
-                  onClick={toggleVisibility}
-                  className="absolute cursor-pointer inset-y-0 end-0 flex w-9 items-center justify-center text-muted-foreground hover:text-foreground"
-                >
-                  {isVisible ? <EyeOffIcon size={16} /> : <EyeIcon size={16} />}
-                </button>
               </div>
-            </div>
-          </CardContent>
-          <CardFooter className="flex justify-center">
-            <Button
-              type="submit"
-              className="w-full cursor-pointer"
-              disabled={isLoading}
-            >
-              Alterar senha
-            </Button>
-          </CardFooter>
+            </CardContent>
+            <CardFooter className="pt-2 flex justify-center">
+              <Button
+                type="submit"
+                className="w-full cursor-pointer"
+                disabled={isLoading}
+              >
+                Alterar senha
+              </Button>
+            </CardFooter>
+          </form>
         </Card>
       ) : (
         <Card className="w-full max-w-md">
@@ -138,7 +176,7 @@ export default function ForgotPasswordPage() {
             </CardDescription>
           </CardHeader>
 
-          <form onSubmit={handleSubmit} noValidate>
+          <form onSubmit={handleSubmitForgot} noValidate>
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>

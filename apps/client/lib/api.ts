@@ -50,6 +50,25 @@ export async function forgotPassword(data: { email: string }) {
   return response.json();
 }
 
+export async function resetPassword(data: {
+  email: string;
+  code: string;
+  newPassword: string;
+}) {
+  const response = await fetch(`${API_BASE_URL}/user/reset-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+
+  return response.json();
+}
+
 export async function getStudentInfo(token: string) {
   const response = await fetch(`${API_BASE_URL}/aluno/me`, {
     method: "GET",

@@ -62,7 +62,7 @@ export function PasswordInput({
 
   return (
     <div>
-      <Label htmlFor={inputId}>{label}</Label>
+      <Label className="flex pb-1.25" htmlFor={inputId}>{label}</Label>
 
       <div className="relative">
         <Input
