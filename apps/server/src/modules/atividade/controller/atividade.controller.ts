@@ -38,7 +38,7 @@ export default class AtividadeExtensaoController {
     private readonly atividadeExtensaoUpdateUC: AtividadeExtensaoUpdateUC,
     @Inject(AtividadeExtensaoDeleteUC)
     private readonly atividadeExtensaoDeleteUC: AtividadeExtensaoDeleteUC,
-    @Inject(AtividadeExtensaoDeleteUC)
+    @Inject(AtividadeExtensaoGetAllUC)
     private readonly atividadeExtensaoGetAllUC: AtividadeExtensaoGetAllUC,
   ) {}
 
@@ -96,6 +96,14 @@ export default class AtividadeExtensaoController {
   }
 
   @Get()
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({
+    summary: '[Publico] Pegar todas atividade de extensão',
+  })
+  @ApiResponse({
+    status: 204,
+    description: 'Atividades buscadas com sucesso',
+  })
   async GetAll(): Promise<GetAllAtividadesResponseDto[]> {
     return await this.atividadeExtensaoGetAllUC.execute();
   }
