@@ -44,7 +44,7 @@ export default function LoginPage() {
     try {
       await login(email, senha);
       toast.success("Login realizado com sucesso");
-      router.push("/");
+      router.push("/atividades");
     } catch (err: unknown) {
       let errorMessage = "Ocorreu um erro. Tente novamente";
 

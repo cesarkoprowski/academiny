@@ -115,7 +115,7 @@ export default function HomePage() {
                     </div>
                   </div>
                   <Button asChild>
-                    <Link href={`/activity/${activity.id}`}>Acessar</Link>
+                    <Link href={`/atividades/${activity.id}`}>Acessar</Link>
                   </Button>
                 </CardFooter>
               </Card>

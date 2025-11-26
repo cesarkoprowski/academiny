@@ -42,7 +42,7 @@ export function NavHeader() {
 
             <nav className="hidden md:flex items-center gap-6">
               <Link
-                href="/"
+                href="/atividades"
                 className="text-sm font-medium text-muted-foreground hover:text-primary"
               >
                 Atividades

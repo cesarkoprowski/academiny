@@ -295,6 +295,24 @@ export async function getAllActivities(token: string) {
   return response.json();
 }
 
+export async function getActivityById(id: string) {
+  const response = await fetch(`${API_BASE_URL}/atividade/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  debugger
+
+  if (!response.ok) {
+    throw new Error("Falha ao buscar atividade");
+  }
+
+  return response.json();
+  return null;
+}
+
 export async function updateUserProfile(
   data: {
     nome: string;
@@ -302,7 +320,7 @@ export async function updateUserProfile(
   },
   token: string
 ) {
-  debugger
+  debugger;
   const response = await fetch(`${API_BASE_URL}/user/update`, {
     method: "PUT",
     headers: {

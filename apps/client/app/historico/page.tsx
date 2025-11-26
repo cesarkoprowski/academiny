@@ -37,7 +37,7 @@ export default function HistoryPage() {
       {/* Content */}
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Histórico de Atividades</h1>
+          <h1 className="text-3xl font-bold mb-2">Histórico de projetos</h1>
           <p className="text-muted-foreground">
             Todas as atividades de extensão que você completou
           </p>
