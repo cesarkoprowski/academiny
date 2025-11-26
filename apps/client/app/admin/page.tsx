@@ -58,7 +58,7 @@ export default function AdminPage() {
           <Button size="lg" asChild>
             <Link href="/admin/activity/new">
               <Plus className="h-4 w-4" />
-              Nova Atividade
+              Nova atividade
             </Link>
           </Button>
         </div>
