@@ -69,51 +69,6 @@ export default class ProjetoExtensaoController {
     return await this.projetoExtensaoGetAllUC.execute();
   }
 
-  @Post()
-  @UseGuards(AuthGuardAluno)
-  @ApiBearerAuth('JWT-auth')
-  @ApiOperation({ summary: '[Aluno Apenas] Criar um novo projeto de extensão' })
-  @ApiResponse({
-    status: 201,
-    description: 'Projeto criado com sucesso',
-    type: ProjetoExtensaoCreateResponseDto,
-  })
-  async createProjeto(
-    @Body() projetoCreateDto: ProjetoExtensaoCreateRequestDto,
-  ): Promise<ProjetoExtensaoCreateResponseDto> {
-    return await this.projetoExtensaoCreateUC.execute(projetoCreateDto);
-  }
-
-  @Patch(':id')
-  @UseGuards(AuthGuardAluno)
-  @ApiBearerAuth('JWT-auth')
-  @HttpCode(204)
-  @ApiOperation({
-    summary: '[Aluno Apenas] Atualizar um projeto de extensão existente',
-  })
-  @ApiParam({
-    name: 'id',
-    description: 'ID do projeto de extensão',
-    example: 1,
-  })
-  @ApiResponse({
-    status: 204,
-    description: 'Projeto atualizado com sucesso',
-  })
-  async updateProjeto(
-    @Req() req: AuthenticatedRequest,
-    @Param('id', ParseIntPipe) id: number,
-    @Body() projetoUpdateDto: ProjetoExtensaoUpdateRequestDto,
-  ): Promise<void> {
-    const aluno = await this.checkAlunoHelper(req);
-
-    return await this.projetoExtensaoUpdateUC.execute({
-      id,
-      input: projetoUpdateDto,
-      alunoId: aluno.pessoa.id,
-    });
-  }
-
   @Delete(':id')
   @UseGuards(AuthGuardAluno)
   @ApiBearerAuth('JWT-auth')
