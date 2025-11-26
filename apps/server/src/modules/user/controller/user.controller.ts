@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   NotFoundException,
   Post,
@@ -27,6 +28,7 @@ import ResetPasswordUC from '../usecases/user/reset-password.usecase';
 import ForgotPasswordRequestDto from '../dto/request/forgot-password.request.dto';
 import ResetPasswordRequestDto from '../dto/request/reset-password.request.dto';
 import MessageResponseDto from '../dto/response/message.response.dto';
+import GetMeUC from '../usecases/user/get-me.usecase';
 
 @ApiTags('user')
 @Controller('user')
@@ -37,6 +39,7 @@ export default class UserController {
     private updateUser: UpdateUserUC,
     private forgotPasswordUC: ForgotPasswordUC,
     private resetPasswordUC: ResetPasswordUC,
+    private getMeUC: GetMeUC,
   ) {}
 
   @Public()
@@ -72,6 +75,17 @@ export default class UserController {
       id: user.userId,
       input: userUpdateDto,
     });
+  }
+
+  @Get('get-me')
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({
+    summary: '[Autenticado] Trazer dados do usuário autenticado',
+  })
+  @ApiResponse({ status: 200, description: 'Usuário buscado com sucesso' })
+  async getMe(@Req() request: AuthenticatedRequest) {
+    const user = this.checkUserHelper(request);
+    return await this.getMeUC.execute(user.userId);
   }
 
   @Public()

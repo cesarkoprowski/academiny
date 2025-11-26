@@ -12,6 +12,7 @@ import PasswordResetRepository from 'infra/repository/password-reset.repository.
 import EmailService from 'common/services/email.service';
 import ForgotPasswordUC from './usecases/user/forgot-password.usecase';
 import ResetPasswordUC from './usecases/user/reset-password.usecase';
+import GetMeUC from './usecases/user/get-me.usecase';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Pessoa, PasswordReset])],
@@ -25,6 +26,7 @@ import ResetPasswordUC from './usecases/user/reset-password.usecase';
     EmailService,
     ForgotPasswordUC,
     ResetPasswordUC,
+    GetMeUC,
   ],
   controllers: [UserController],
 })

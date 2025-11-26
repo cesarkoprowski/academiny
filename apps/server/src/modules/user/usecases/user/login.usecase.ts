@@ -18,14 +18,20 @@ export default class LoginUC
   async execute(input: LoginRequestDTO): Promise<LoginResponseDTO> {
     const userBD = await this.userRepository.getByEmail(input.email);
 
-    if (!userBD) throw new UnauthorizedException('Nenhum dado correspondente foi encontrado');
+    if (!userBD)
+      throw new UnauthorizedException(
+        'Nenhum dado correspondente foi encontrado',
+      );
 
     const isValid = await this.authService.validatePassword(
       input.senha,
       userBD.senhaHash,
     );
 
-    if (!isValid) throw new UnauthorizedException('Nenhum dado correspondente foi encontrado');
+    if (!isValid)
+      throw new UnauthorizedException(
+        'Nenhum dado correspondente foi encontrado',
+      );
 
     const jwt = this.authService.generateToken(
       userBD.id,
